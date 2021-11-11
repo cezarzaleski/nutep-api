@@ -1,0 +1,36 @@
+{
+  "name": "nutep_backend",
+  "version": "1.0.0",
+  "description": "APIs to use at APP of Núcleo de Terapia Nutricional Enteral e Parenteral - NUTEP",
+  "main": "index.js",
+  "scripts": {
+    "tsc:init": "tsc --init",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/nutep/backend.git"
+  },
+  "keywords": [
+    "nutep"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/nutep/backend/issues"
+  },
+  "homepage": "https://gitlab.com/nutep/backend#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "7.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "git-commit-msg-linter": "^3.2.8",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
+    "typescript": "^4.4.4"
+  }
+}
