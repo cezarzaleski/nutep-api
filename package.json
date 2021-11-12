@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "tsc:init": "tsc --init",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --passWithNoTests --no-cache --runInBand --detectOpenHandles",
+    "test:watch": "npm test -- --watch",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:integration": "jest -c jest.integration.config.js  --passWithNoTests --no-cache --runInBand",
+    "test:unit": "jest -c jest-unit-config.js  --passWithNoTests --no-cache --runInBand",
+    "test:coverage": "npm test -- --coverage",
+    "start": "cross-env ts-node-dev -r tsconfig-paths/register --respawn -- src/main.ts"
   },
   "repository": {
     "type": "git",
@@ -20,17 +26,55 @@
     "url": "https://gitlab.com/nutep/backend/issues"
   },
   "homepage": "https://gitlab.com/nutep/backend#readme",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "@nestjs/common": "^7.5.1",
+    "@nestjs/core": "^7.5.1",
+    "@nestjs/platform-express": "^7.5.1",
+    "@nestjs/swagger": "^4.5.7",
+    "swagger-ui-express": "^4.1.4",
+    "ts-node-dev": "^1.1.1",
+    "reflect-metadata": "^0.1.13",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.10.6",
+    "supertest": "^6.0.0"
+  },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.1",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.11.7",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "7.0.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-promise": "^4.2.1",
     "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.4",
+    "jest": "^27.3.1",
     "lint-staged": "^11.2.6",
-    "typescript": "^4.4.4"
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4",
+    "@types/mongoose": "5.7.36",
+    "@types/supertest": "^2.0.10"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
