@@ -1,9 +1,11 @@
 import User from 'src/authenticate/domain/entity/user';
-import { Email } from 'src/shared/domain/value-object/email';
+import bcrypt from 'bcrypt'
+import GeneratePassword from 'src/authenticate/domain/service/generate-password';
 
-
-test("Should create a new user", () => {
-    const user = new User(Email.create('cezar.zaleski@gmail.com'), 'dummy');
-    expect(user.email).toEqual(Email.create('cezar.zaleski@gmail.com'))
-    expect(user.password).toEqual('dummy')
+test("Should create a new user", async () => {
+  const password = await GeneratePassword.generate('dummy')
+  const user = new User('cezar.zaleski@gmail.com', password);
+  expect(user.getEmail().value).toEqual('cezar.zaleski@gmail.com')
+  const comparePassword = await bcrypt.compare('dummy', user.getPassword())
+  expect(comparePassword).toBeTruthy()
 });
