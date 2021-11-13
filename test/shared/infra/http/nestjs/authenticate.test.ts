@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import { nestApp } from '@/shared/infra/http/nestjs';
-import { makeTestDb } from '@/test/shared/infra/database/connection';
+import { nestApp } from 'src/shared/infra/http/nestjs';
+import { makeTestDb } from 'test/shared/infra/database/connection';
 
 describe('Authenticate Router', () => {
   let app;

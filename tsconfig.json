@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "commonjs",
-    "target": "es6",
+    "target": "es2019",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -10,17 +10,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "rootDirs": ["src",
-      "test"
-    ],
-    "baseUrl": "src",
-    "paths": {
-      "@/test/*": ["../test/*"],
-      "@/*": ["*"]
-    }
+    "rootDirs": ["src", "test"],
+    "baseUrl": "./",
   },
-  "include": ["src",
-    "test"
-  ],
+  "include": ["src", "test"],
   "exclude": []
 }

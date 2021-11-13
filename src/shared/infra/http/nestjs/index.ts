@@ -1,5 +1,5 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { NestApp } from '@/shared/infra/http/nestjs/app';
+import { NestApp } from 'src/shared/infra/http/nestjs/app';
 
 export const nestApp = async () => {
   const nestServerApp = await NestApp

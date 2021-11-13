@@ -1,4 +1,4 @@
-import InvalidEmailError from '@/shared/exception/invalid-email';
+import InvalidEmailError from 'src/shared/exception/invalid-email';
 
 
 export class Email {

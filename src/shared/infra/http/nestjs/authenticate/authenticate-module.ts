@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { AuthenticateRouter } from '@/shared/infra/http/nestjs/authenticate/authenticate-router';
+import { AuthenticateRouter } from 'src/shared/infra/http/nestjs/authenticate/authenticate-router';
 
 @Module({
   controllers: [AuthenticateRouter],

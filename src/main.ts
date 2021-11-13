@@ -1,11 +1,9 @@
-import { ConnectionAdapter } from '@/shared/infra/database/connection-adapter';
 import * as dotenv from 'dotenv'
-
+import { ConnectionAdapter } from 'src/shared/infra/database/connection-adapter';
 dotenv.config()
 
-
 const chooseFramework = () => {
-  return import('@/shared/infra/http/nestjs/index').then((framework) => framework.nestApp())
+  return import('./shared/infra/http/nestjs/index').then((framework) => framework.nestApp())
 }
 
 const chooseDatabase = () => {
@@ -22,7 +20,7 @@ const startServer = async () => {
       await app.listen(port, () => console.log(`server running at: http://localhost:${port}/api`))
     })
     .catch((error) => {
-      console.log(`database connection problem: ${error}`)
+      console.error(`database connection problem: ${error}`)
     })
 }
 

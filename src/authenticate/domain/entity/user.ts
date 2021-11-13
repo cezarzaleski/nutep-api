@@ -1,4 +1,5 @@
-import { Email } from '@/shared/domain/value-object/email';
+import { Email } from 'src/shared/domain/value-object/email';
+
 
 export default class User {
 

@@ -1,7 +1,7 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import AuthController from '@/authenticate/infra/controller/auth-controller';
+import AuthController from 'src/authenticate/infra/controller/auth-controller';
 
 @Controller('auth')
 @ApiTags('Authenticate')

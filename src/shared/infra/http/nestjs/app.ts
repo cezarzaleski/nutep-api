@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { AuthenticateModule } from '@/shared/infra/http/nestjs/authenticate/authenticate-module';
+import { AuthenticateModule } from 'src/shared/infra/http/nestjs/authenticate/authenticate-module';
+
 
 @Module({
   imports: [
