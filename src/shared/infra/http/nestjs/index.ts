@@ -9,8 +9,12 @@ export const nestApp = async () => {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-
   nestServerApp.setGlobalPrefix('/api')
+  nestServerApp.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: false,
+  });
   const document = SwaggerModule.createDocument(nestServerApp, options);
   SwaggerModule.setup('swagger', nestServerApp, document);
   return nestServerApp
