@@ -1,10 +1,10 @@
-import Login from 'src/authenticate/application/login';
 import { mock, MockProxy } from 'jest-mock-extended';
 import UserRepository from 'src/authenticate/domain/repository/user-repository';
 import { Encrypter } from 'src/authenticate/infra/cryptography/encrypter';
 import User from 'src/authenticate/domain/entity/user';
 import faker from 'faker'
 import GeneratePassword from 'src/authenticate/domain/service/generate-password';
+import Login from 'src/authenticate/application/usecase/login';
 
 describe('Login Usecase', () => {
   let sut: Login

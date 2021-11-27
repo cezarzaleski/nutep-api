@@ -12,11 +12,12 @@ describe('Authenticate Router', () => {
     jest.setTimeout(1000)
     app = await nestApp()
     const password = await GeneratePassword.generate('dummy')
-    user = {email: 'teste@gmail.com', password: password}
+    user = {email: 'testee@gmail.com', password: password}
     await app.init()
     await makeTestDb()
   })
   afterAll(async () => {
+    await MongoUserModel.deleteOne(user)
     await mongoose.connection.close();
   });
   describe('POST /auth/login', () => {
@@ -24,7 +25,7 @@ describe('Authenticate Router', () => {
       await MongoUserModel.create(user)
       const { status, body } = await request(app.getHttpServer())
         .post('/api/auth/login')
-        .send({email: 'teste@gmail.com', password: 'dummy'})
+        .send({email: 'testee@gmail.com', password: 'dummy'})
       expect(status).toBe(200)
       expect(body).not.toBeNull()
     })

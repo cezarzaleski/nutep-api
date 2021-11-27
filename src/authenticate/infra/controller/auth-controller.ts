@@ -1,4 +1,4 @@
-import Login from 'src/authenticate/application/login';
+import Login from 'src/authenticate/application/usecase/login';
 import UserRepositoryDatabase from 'src/authenticate/infra/database/repository/user-repository-database';
 import { JwtAdapter } from 'src/authenticate/infra/cryptography/jwt-adapter';
 import { badRequest, ok, serverError, unauthorized } from 'src/shared/infra/http/http';
