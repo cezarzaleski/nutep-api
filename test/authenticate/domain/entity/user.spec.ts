@@ -4,7 +4,7 @@ import GeneratePassword from 'src/authenticate/domain/service/generate-password'
 
 test("Should create a new user", async () => {
   const password = await GeneratePassword.generate('dummy')
-  const user = new User('cezar.zaleski@gmail.com', password);
+  const user = new User('cezar.zaleski@gmail.com', password, 'teste');
   expect(user.getEmail().value).toEqual('cezar.zaleski@gmail.com')
   const comparePassword = await bcrypt.compare('dummy', user.getPassword())
   expect(comparePassword).toBeTruthy()

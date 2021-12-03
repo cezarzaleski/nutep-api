@@ -10,6 +10,8 @@ export class MongoUserSchema {
   @Prop({ unique: true, index: true })
   email: string;
   @Prop()
+  name: string;
+  @Prop()
   password: string;
   @Prop()
   createdAt: Date;

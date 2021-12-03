@@ -18,7 +18,7 @@ export default class Login {
     if (!password) throw new EmptyParamError('password')
     const user = await this.userRepository.findByEmail(email);
     const passwordValid = await GeneratePassword.compare(password, user.getPassword())
-    if (passwordValid) return await this.encrypter.encrypt(user)
+    if (passwordValid) return await this.encrypter.encrypt({name: user.name, email: user.getEmail()})
     throw new UnauthorizedError()
   }
 }

@@ -15,7 +15,7 @@ export default class UserRepositoryDatabase implements UserRepository {
     // @ts-ignore
     const user: MongoUserSchema = await this.userModel.findOne({email: email});
     if (user) {
-      return new User(user.email, user.password);
+      return new User(user.email, user.password, user.name);
     }
     throw new NotFoundError('User')
   }

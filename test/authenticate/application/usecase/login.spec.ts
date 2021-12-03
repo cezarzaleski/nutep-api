@@ -15,7 +15,7 @@ describe('Login Usecase', () => {
     encrypter = mock()
     userRepository = mock()
     const password = await GeneratePassword.generate("dummy")
-    user = new User(faker.internet.email(), password)
+    user = new User(faker.internet.email(), password, 'teste')
     userRepository.findByEmail.mockResolvedValue(user)
     encrypter.encrypt.mockResolvedValue('encrypter')
     sut = new Login(userRepository, encrypter)

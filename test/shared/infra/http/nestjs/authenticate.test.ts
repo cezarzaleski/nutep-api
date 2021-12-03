@@ -12,7 +12,7 @@ describe('Authenticate Router', () => {
     jest.setTimeout(1000)
     app = await nestApp()
     const password = await GeneratePassword.generate('dummy')
-    user = {email: 'testee@gmail.com', password: password}
+    user = {email: 'testee@gmail.com', password: password, name: 'teste'}
     await app.init()
     await makeTestDb()
   })

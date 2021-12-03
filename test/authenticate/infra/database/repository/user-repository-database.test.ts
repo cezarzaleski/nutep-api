@@ -17,12 +17,18 @@ describe('UserRepositoryDatabase', () => {
   let user: any
   beforeAll(async () => {
     sut = new UserRepositoryDatabase()
-    user = {email: 'teste@gmail.com', password: 'dummy'}
+    user = {email: 'teste@gmail.com', password: 'dummy', name: 'teste'}
+  })
+
+  afterAll(async () => {
+    await MongoUserModel.deleteMany({})
   })
 
   it('Should find user by email', async () => {
     await MongoUserModel.create(user)
     const result = await sut.findByEmail('teste@gmail.com')
-    expect(result).toBeDefined()
+    expect(result.name).toEqual('teste')
+    expect(result.getPassword()).toEqual('dummy')
+    expect(result.getEmail().value).toEqual('teste@gmail.com')
   })
 })
