@@ -17,7 +17,7 @@ export default class PatientRepositoryDatabase implements PatientRepository {
       birthday: patient.birthday,
       sex: patient.getSex(),
       hospitalizationStatus: patient.getHospitalizationStatus(),
-      cpf: patient.getCpf().value,
+      cpf: patient.getCpf()?.value,
       register: patient.register,
       attendingPhysician: patient.attendingPhysician,
       healthCare: patient.healthCare,
