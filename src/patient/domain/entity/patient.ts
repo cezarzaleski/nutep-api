@@ -4,7 +4,7 @@ import { Sex } from 'src/patient/domain/entity/sex';
 import { HospitalizationStatus } from 'src/patient/domain/entity/hospitalization-status';
 
 export default class Patient {
-  private cpf: Cpf
+  private readonly cpf: Cpf
 
   constructor(
     readonly fullName: string,
@@ -20,7 +20,8 @@ export default class Patient {
     if (!fullName) throw new EmptyParamError('fullName')
     if (!birthday) throw new EmptyParamError('birthday')
     if (!sex) throw new EmptyParamError('sex')
-    if (!hospitalizationStatus) throw new EmptyParamError('statusInternacao')
+    if (!hospitalizationStatus) throw new EmptyParamError('hospitalizationStatus')
     if (cpf) this.cpf = Cpf.create(cpf)
   }
+  getCpf() { return this.cpf}
 }
