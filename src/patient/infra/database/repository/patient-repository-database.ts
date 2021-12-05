@@ -10,9 +10,9 @@ export default class PatientRepositoryDatabase implements PatientRepository {
     this.patientModel = MongoPatientModel
   }
 
-
   async save(patient: Patient): Promise<Patient> {
     const mongoPatient = <MongoPatientSchema>{
+      id: patient.id,
       fullName: patient.fullName,
       birthday: patient.birthday,
       sex: patient.getSex(),

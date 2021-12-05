@@ -10,6 +10,8 @@ export class MongoPatientSchema {
 
   _id: string;
   @Prop()
+  id: string;
+  @Prop()
   fullName: string;
   @Prop()
   birthday: Date;

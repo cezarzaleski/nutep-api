@@ -5,6 +5,7 @@ import { Sex } from 'src/patient/domain/entity/sex';
 import { HospitalizationStatus } from 'src/patient/domain/entity/hospitalization-status';
 import { MongoPatientModel, MongoPatientSchema } from 'src/patient/infra/database/schemas/mongo-patient.schema';
 import Patient from 'src/patient/domain/entity/patient';
+import { v4 as uuidv4 } from 'uuid';
 
 
 beforeAll(async () => {
@@ -20,7 +21,7 @@ describe('PatientRepositoryDatabase', () => {
   let patient: Patient
   beforeAll(async () => {
     sut = new PatientRepositoryDatabase()
-    patient = new Patient('fullName', new Date('1988-11-21'), Sex.Masculine,
+    patient = new Patient(uuidv4(), 'fullName', new Date('1988-11-21'), Sex.Masculine,
       HospitalizationStatus.OnAdmission,
       '075.904.250-01', '121212', 'attendingPhysician', 'healthCare',
       'linkPhoto'
