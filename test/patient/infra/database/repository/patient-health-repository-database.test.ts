@@ -43,7 +43,6 @@ describe('PatientRepositoryDatabase', () => {
     await sut.save(patientHealth)
     // @ts-ignore
     const patientHealthSaved: MongoPatientHealthSchema = await MongoPatientHealthModel.findOne({})
-    console.log(patientHealthSaved)
     expect(patientHealthSaved.initialDescription).toEqual(patientHealth.initialDescription)
     expect(patientHealthSaved.uuid).toEqual(patientHealth.id)
     expect(patientHealthSaved.dialysis).toEqual(patientHealth.getDialysis())
