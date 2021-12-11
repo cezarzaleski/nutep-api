@@ -1,0 +1,36 @@
+import { mock, MockProxy } from 'jest-mock-extended';
+import UserRepository from 'src/authenticate/domain/repository/user-repository';
+import User from 'src/authenticate/domain/entity/user';
+import faker from 'faker'
+import GetUser from 'src/authenticate/application/query/get-user';
+import NotFoundError from 'src/shared/exception/not-found';
+import EmptyParamError from 'src/shared/exception/empty-param';
+
+describe('Get User Query', () => {
+  let userRepository: MockProxy<UserRepository>
+  let user: User
+  let sut: GetUser
+  beforeAll(async () => {
+    userRepository = mock()
+    user = new User(faker.internet.email(), 'password', 'teste', 'id-user')
+    userRepository.findById.mockResolvedValue(user)
+    sut = new GetUser(userRepository)
+  })
+  test('Should id user required', async () => {
+    return sut.execute(undefined).catch(e => {
+        expect(e).toEqual(new EmptyParamError('id'))
+      }
+    );
+  })
+  it('Should User not found', async () => {
+    userRepository.findById.mockImplementation(() => {
+      throw new NotFoundError('User')
+    })
+    return sut.execute('id').catch(e => {
+        expect(e).toEqual(new NotFoundError('User'))
+      }
+    );
+  })
+})
+
+
