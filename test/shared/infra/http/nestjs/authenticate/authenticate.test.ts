@@ -25,7 +25,7 @@ describe('Authenticate Router', () => {
       await MongoUserModel.create(user)
       const { status, body } = await request(app.getHttpServer())
         .post('/api/auth/login')
-        .send({email: 'testee@gmail.com', password: 'dummy'})
+        .send({username: 'testee@gmail.com', password: 'dummy'})
       expect(status).toBe(200)
       expect(body).not.toBeNull()
     })
