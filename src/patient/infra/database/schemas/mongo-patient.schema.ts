@@ -10,7 +10,7 @@ export class MongoPatientSchema {
 
   _id: string;
   @Prop()
-  id: string;
+  uuid: string;
   @Prop()
   fullName: string;
   @Prop()

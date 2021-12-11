@@ -5,7 +5,7 @@ import { YesOrNo } from 'src/shared/domain/enum/yes-or-no';
 import InvalidParamError from 'src/shared/exception/invalid-param';
 import Diagnostic from 'src/patient/domain/entity/diagnostic';
 
-export default class Health {
+export default class PatientHealth {
   private readonly mechanicalVentilation: MechanicalVentilation
   private readonly consciousnessLevels: Array<ConsciousnessLevel>
   private readonly dialysis: YesOrNo
@@ -16,6 +16,7 @@ export default class Health {
   private readonly allergies: Array<string>
 
   constructor(
+    readonly id: string,
     readonly patientId: string,
     readonly initialDescription: string,
     typeVentilation: string,
@@ -23,14 +24,14 @@ export default class Health {
     dialysis: string,
     insulin: string,
     oralDiet: string,
-    pressureInjury?: string
+    readonly pressureInjury?: string
   ) {
     if (!patientId) throw new EmptyParamError('patientId')
     if (!initialDescription) throw new EmptyParamError('initialDescription')
     if (typeVentilation && methodVentilation) this.mechanicalVentilation = new MechanicalVentilation(typeVentilation, methodVentilation)
-    Health.validateYesOrNo(dialysis, 'dialysis')
-    Health.validateYesOrNo(insulin, 'insulin')
-    Health.validateYesOrNo(oralDiet, 'oralDiet')
+    PatientHealth.validateYesOrNo(dialysis, 'dialysis')
+    PatientHealth.validateYesOrNo(insulin, 'insulin')
+    PatientHealth.validateYesOrNo(oralDiet, 'oralDiet')
     this.consciousnessLevels = []
     this.comorbidities = []
     this.allergies = []
@@ -57,6 +58,9 @@ export default class Health {
   getComorbidities() { return this.comorbidities}
   getAllergies() { return this.allergies}
   getInitialDiagnosis() { return this.diagnostics}
+  getDialysis() { return this.dialysis}
+  getInsulin() { return this.insulin}
+  getOralDiet() { return this.oralDiet}
 
   private static validateYesOrNo(field: string, name: string) {
     if (!Object.values(YesOrNo).includes(field as YesOrNo)) throw new InvalidParamError(name)

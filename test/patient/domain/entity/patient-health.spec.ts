@@ -1,8 +1,9 @@
-import Health from 'src/patient/domain/entity/health';
+import PatientHealth from 'src/patient/domain/entity/patient-health';
 import InvalidParamError from 'src/shared/exception/invalid-param';
 
-test("Should create a new health", async () => {
-  const patient = new Health(
+test("Should create a new patient health", async () => {
+  const patient = new PatientHealth(
+    'uuid',
     'patientId',
     'initialDescription',
     'typeVentilation',
@@ -16,7 +17,8 @@ test("Should create a new health", async () => {
 
 test("Should throw exception invalid param dialysis", async () => {
   expect(() =>
-    new Health(
+    new PatientHealth(
+      'uuid',
       'patientId',
       'initialDescription',
       'typeVentilation',
@@ -29,7 +31,8 @@ test("Should throw exception invalid param dialysis", async () => {
 });
 test("Should throw exception invalid param insulin", async () => {
   expect(() =>
-    new Health(
+    new PatientHealth(
+      'uuid',
       'patientId',
       'initialDescription',
       'typeVentilation',
@@ -43,7 +46,8 @@ test("Should throw exception invalid param insulin", async () => {
 
 test("Should throw exception invalid param oralDiet", async () => {
   expect(() =>
-    new Health(
+    new PatientHealth(
+      'uuid',
       'patientId',
       'initialDescription',
       'typeVentilation',

@@ -12,7 +12,7 @@ export default class PatientRepositoryDatabase implements PatientRepository {
 
   async save(patient: Patient): Promise<Patient> {
     const mongoPatient = <MongoPatientSchema>{
-      id: patient.id,
+      uuid: patient.id,
       fullName: patient.fullName,
       birthday: patient.birthday,
       sex: patient.getSex(),
