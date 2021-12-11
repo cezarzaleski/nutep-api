@@ -8,6 +8,8 @@ export class MongoUserSchema {
 
   _id: string;
   @Prop({ unique: true, index: true })
+  uuid: string;
+  @Prop({ unique: true, index: true })
   email: string;
   @Prop()
   name: string;

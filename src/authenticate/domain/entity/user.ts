@@ -5,7 +5,7 @@ export default class User {
   private readonly email: Email
   private readonly password: string
 
-  constructor(email: string, password: string, readonly name: string) {
+  constructor(email: string, password: string, readonly name: string, readonly id: string) {
     this.email = Email.create(email);
     this.password = password
   }
