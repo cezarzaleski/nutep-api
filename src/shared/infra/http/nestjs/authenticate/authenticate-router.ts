@@ -16,7 +16,7 @@ export class AuthenticateRouter {
   @ApiOperation({summary: 'Login'})
   async login(@Body() input: LoginInput, @Res() response: Response) {
     const authController = new AuthController(new UserRepositoryDatabase(), new JwtAdapter('123'))
-    const authenticateResponse = await authController.authenticate(input.email, input.password)
+    const authenticateResponse = await authController.authenticate(input.username, input.password)
     return adaptNestJSResolver(authenticateResponse, response)
   }
 }
