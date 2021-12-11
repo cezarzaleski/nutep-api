@@ -5,10 +5,7 @@ import EmptyParamError from 'src/shared/exception/empty-param';
 import UnauthorizedError from 'src/authenticate/domain/exception/unauthorized';
 
 export default class Login {
-  private userRepository: UserRepository;
-  private encrypter: Encrypter;
-
-  constructor(userRepository: UserRepository, encrypter: Encrypter) {
+  constructor(readonly userRepository: UserRepository, readonly encrypter: Encrypter) {
     this.userRepository = userRepository
     this.encrypter = encrypter
   }
