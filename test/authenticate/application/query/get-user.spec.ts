@@ -13,10 +13,9 @@ describe('Get User Query', () => {
   beforeAll(async () => {
     userRepository = mock()
     user = new User(faker.internet.email(), 'password', 'teste', 'id-user')
-    userRepository.findById.mockResolvedValue(user)
     sut = new GetUser(userRepository)
   })
-  test('Should id user required', async () => {
+  it('Should id user required', async () => {
     return sut.execute(undefined).catch(e => {
         expect(e).toEqual(new EmptyParamError('id'))
       }
@@ -31,6 +30,12 @@ describe('Get User Query', () => {
       }
     );
   })
+  it('Should return user with success', async () => {
+  userRepository.findById.mockResolvedValue(user)
+    const userFind = await sut.execute('userId')
+    expect(userFind).toEqual(user)
+  })
 })
+
 
 
