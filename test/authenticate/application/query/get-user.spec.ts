@@ -33,7 +33,9 @@ describe('Get User Query', () => {
   it('Should return user with success', async () => {
   userRepository.findById.mockResolvedValue(user)
     const userFind = await sut.execute('userId')
-    expect(userFind).toEqual(user)
+    expect(userFind.name).toEqual(user.name)
+    expect(userFind.email).toEqual(user.getEmail().value)
+    expect(userFind.id).toEqual(user.id)
   })
 })
 

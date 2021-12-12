@@ -1,12 +1,13 @@
 import UserRepository from 'src/authenticate/domain/repository/user-repository';
 import EmptyParamError from 'src/shared/exception/empty-param';
-import User from 'src/authenticate/domain/entity/user';
+import UserDto from 'src/authenticate/application/dto/user-dto';
 
 export default class GetUser {
   constructor(readonly userRepository: UserRepository) {}
 
-  async execute(id: string): Promise<User> {
+  async execute(id: string): Promise<UserDto> {
     if (!id) throw new EmptyParamError('id')
-    return this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+    return new UserDto(user.id, user.name, user.getEmail()?.value)
   }
 }
