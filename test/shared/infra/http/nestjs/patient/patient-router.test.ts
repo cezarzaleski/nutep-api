@@ -15,7 +15,7 @@ describe('Patient Router', () => {
     await makeTestDb()
     createPatientInput = {
       fullName: 'fullname',
-      birthday: new Date('2021-11-11'),
+      birthday: new Date('2021-11-11').toDateString(),
       sex: 'F',
       register: '1212',
       attendingPhysician: 'attendingPhysician',
@@ -37,5 +37,12 @@ describe('Patient Router', () => {
       expect(body).not.toBeNull()
       expect(patientSaved.register).toEqual('1212')
     })
+    // it('should return 400 birdDate invalid', async () => {
+    //   createPatientInput.birthday = '21/11/1988'
+    //   const { status, body } = await request(app.getHttpServer())
+    //     .post('/api/patient')
+    //     .send(createPatientInput)
+    //   expect(status).toBe(400)
+    // })
   })
 })

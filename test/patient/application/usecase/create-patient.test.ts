@@ -14,7 +14,7 @@ describe('Create Patient Usecase', () => {
     sut = new CreatePatient(patientRepository)
     input = new CreatePatientInput(
       'fullname',
-      new Date('2000-11-23'),
+      '2000-11-23',
       'F',
       '994.499.110-45',
       '121212',

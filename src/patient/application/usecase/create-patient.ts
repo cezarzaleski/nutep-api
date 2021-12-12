@@ -15,7 +15,7 @@ export default class CreatePatient {
     const patient = new Patient(
       uuidv4(),
       input.fullName,
-      input.birthday,
+      new Date(input.birthday),
       input.sex,
       HospitalizationStatus.OnAdmission,
       input.cpf,

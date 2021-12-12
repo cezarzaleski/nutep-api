@@ -4,7 +4,7 @@ export class CreatePatientInput {
   @ApiProperty()
   fullName: string;
   @ApiProperty()
-  birthday: Date;
+  birthday: string;
   @ApiProperty()
   sex: string;
   @ApiProperty()
