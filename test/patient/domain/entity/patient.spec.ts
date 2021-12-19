@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 test("Should create a new patient", async () => {
-  const patient = new Patient(uuidv4(), 'Cezar Zaleski', new Date('2000-11-23'), Sex.Masculine, HospitalizationStatus.OnAdmission);
+  const patient = new Patient(uuidv4(), 'Cezar Zaleski', new Date('2000-11-23'), Sex.Masculine, HospitalizationStatus.OnAdmission, uuidv4());
   expect(patient).toBeDefined()
 });
 

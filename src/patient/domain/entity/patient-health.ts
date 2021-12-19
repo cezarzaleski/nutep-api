@@ -17,7 +17,6 @@ export default class PatientHealth {
 
   constructor(
     readonly id: string,
-    readonly patientId: string,
     readonly initialDescription: string,
     typeVentilation: string,
     methodVentilation: string,
@@ -26,7 +25,6 @@ export default class PatientHealth {
     oralDiet: string,
     readonly pressureInjury?: string
   ) {
-    if (!patientId) throw new EmptyParamError('patientId')
     if (!initialDescription) throw new EmptyParamError('initialDescription')
     if (typeVentilation && methodVentilation) this.mechanicalVentilation = new MechanicalVentilation(typeVentilation, methodVentilation)
     PatientHealth.validateYesOrNo(dialysis, 'dialysis')

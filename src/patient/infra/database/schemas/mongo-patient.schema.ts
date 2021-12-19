@@ -29,6 +29,8 @@ export class MongoPatientSchema {
   healthCare: string;
   @Prop()
   linkPhoto: string;
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'HealthPatients', index: true})
+  health: MongoPatientSchema
   @Prop()
   createdAt: Date;
   @Prop()

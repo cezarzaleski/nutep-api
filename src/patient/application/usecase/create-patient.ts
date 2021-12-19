@@ -21,6 +21,7 @@ export default class CreatePatient {
       birthday,
       input.sex,
       HospitalizationStatus.OnAdmission,
+      uuidv4(),
       input.cpf,
       input.register,
       input.attendingPhysician,

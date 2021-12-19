@@ -7,7 +7,6 @@ import { MongoPatientModel, MongoPatientSchema } from 'src/patient/infra/databas
 import Patient from 'src/patient/domain/entity/patient';
 import { v4 as uuidv4 } from 'uuid';
 
-
 beforeAll(async () => {
   await makeTestDb()
 })
@@ -22,7 +21,7 @@ describe('PatientRepositoryDatabase', () => {
   beforeAll(async () => {
     sut = new PatientRepositoryDatabase()
     patient = new Patient(uuidv4(), 'fullName', new Date('1988-11-21'), Sex.Masculine,
-      HospitalizationStatus.OnAdmission,
+      HospitalizationStatus.OnAdmission, uuidv4(),
       '075.904.250-01', '121212', 'attendingPhysician', 'healthCare',
       'linkPhoto'
     )
