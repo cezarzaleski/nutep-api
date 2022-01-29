@@ -4,6 +4,7 @@ import CreatePatient from 'src/patient/application/usecase/create-patient';
 import CreatePatientInput from 'src/patient/application/dto/create-patient-input';
 import GetPatients from 'src/patient/application/query/get-patients';
 import PatientDAO from 'src/patient/application/query/patient-DAO';
+import GetPatient from 'src/patient/application/query/get-patient';
 
 export default class PatientController {
   constructor(
@@ -26,6 +27,16 @@ export default class PatientController {
       const getPatients = new GetPatients(this.patientDAO)
       const patients = await getPatients.execute()
       return ok(patients)
+    }  catch (error) {
+      return httpResponseError(error)
+    }
+  }
+
+  async findById(id: string) {
+    try {
+      const getPatient = new GetPatient(this.patientRepository)
+      const patient = await getPatient.execute(id)
+      return ok(patient)
     }  catch (error) {
       return httpResponseError(error)
     }

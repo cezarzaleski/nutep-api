@@ -2,9 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Sex } from 'src/patient/domain/entity/sex';
 import { HospitalizationStatus } from 'src/patient/domain/entity/hospitalization-status';
+import Patient from 'src/patient/domain/entity/patient';
 
 @Schema({
-  strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
+  strict: false, timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}
 })
 export class MongoPatientSchema {
 
@@ -35,6 +36,22 @@ export class MongoPatientSchema {
   createdAt: Date;
   @Prop()
   updatedAt: Date;
+
+  static toEntity(patient: MongoPatientSchema): Patient {
+    return new Patient(
+      patient.uuid,
+      patient.fullName,
+      patient.birthday,
+      patient.sex,
+      patient.hospitalizationStatus,
+      'hospitalId',
+      patient.cpf,
+      patient.register,
+      patient.attendingPhysician,
+      patient.healthCare,
+      patient.linkPhoto
+    )
+  }
 }
 
 export const MongoPatientModel = mongoose.model('Patients', SchemaFactory.createForClass(MongoPatientSchema));

@@ -7,6 +7,7 @@ import {
   MongoPatientHealthModel,
   MongoPatientHealthSchema
 } from 'src/patient/infra/database/schemas/mongo-patient-health.schema';
+import NotFoundError from 'src/shared/exception/not-found';
 
 export default class PatientRepositoryDatabase implements PatientRepository {
   private readonly patientModel: mongoose.Model<mongoose.Document>
@@ -55,4 +56,10 @@ export default class PatientRepositoryDatabase implements PatientRepository {
     return await this.patientHealthModel.create(mongoPatientHealth);
   }
 
+  async findById(id: string): Promise<Patient> {
+    // @ts-ignore
+    const patient: MongoPatientSchema = await this.patientModel.findOne({uuid: id});
+    if (patient) return MongoPatientSchema.toEntity(patient)
+    throw new NotFoundError('Patient')
+  }
 }

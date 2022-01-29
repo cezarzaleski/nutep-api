@@ -74,7 +74,16 @@ describe('Patient Router', () => {
       // @ts-ignore
       expect(status).toBe(200)
       expect(body).not.toBeNull()
-      expect(patient.fullName).toEqual('dummy')
+      expect(body[0].fullName).toEqual('dummy')
+    })
+
+    it('should return 200 find by id patients', async () => {
+      const { status, body } = await request(app.getHttpServer())
+        .get(`/api/patients/${patient.id}`)
+      // @ts-ignore
+      expect(status).toBe(200)
+      expect(body).not.toBeNull()
+      expect(body.fullName).toEqual('dummy')
     })
   })
 })
