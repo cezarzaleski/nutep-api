@@ -27,6 +27,29 @@ describe('Patient Router', () => {
     await mongoose.connection.close();
   });
   describe('POST /api/patient', () => {
+    it('should return 201 patient created', async () => {
+      const { status, body } = await request(app.getHttpServer())
+        .post('/api/patient')
+        .send(createPatientInput)
+      // @ts-ignore
+      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({register: '1212'})
+      expect(status).toBe(201)
+      expect(body).not.toBeNull()
+      expect(patientSaved.register).toEqual('1212')
+    })
+    it('should return 400 patient created', async () => {
+      createPatientInput.birthday = '21/11/1988'
+      const { status, body } = await request(app.getHttpServer())
+        .post('/api/patient')
+        .send(createPatientInput)
+      // @ts-ignore
+      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({register: '1212'})
+      expect(status).toBe(400)
+      expect(body).not.toBeNull()
+      expect(patientSaved.register).toEqual('1212')
+    })
+  })
+  describe('GET ALL /api/patient', () => {
     it('should return 200 patient created', async () => {
       const { status, body } = await request(app.getHttpServer())
         .post('/api/patient')
