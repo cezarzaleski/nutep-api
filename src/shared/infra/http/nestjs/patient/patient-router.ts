@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common'
+import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router';
@@ -11,17 +11,23 @@ import PatientDAODatabase from 'src/patient/infra/database/dao/patient-DAO-datab
 @ApiTags('Patient')
 export class PatientRouter {
   private patientController: PatientController
-
-
   constructor() {
     this.patientController = new PatientController(new PatientRepositoryDatabase(), new PatientDAODatabase());
   }
 
   @Post('')
-  @ApiResponse({status: HttpStatus.OK})
+  @ApiResponse({status: HttpStatus.CREATED})
   @ApiOperation({summary: 'Create new patient'})
   async create(@Body() input: CreatePatientInput, @Res() response: Response) {
     const patientResponse = await this.patientController.create(input)
+    return adaptNestJSResolver(patientResponse, response)
+  }
+
+  @Put('/:patientId')
+  @ApiResponse({status: HttpStatus.OK})
+  @ApiOperation({summary: 'Create new patient'})
+  async update(@Param('patientId') patientId: string, @Body() input: CreatePatientInput, @Res() response: Response) {
+    const patientResponse = await this.patientController.update(patientId, input)
     return adaptNestJSResolver(patientResponse, response)
   }
 

@@ -4,16 +4,17 @@ import Patient from 'src/patient/domain/entity/patient';
 import { HospitalizationStatus } from 'src/patient/domain/entity/hospitalization-status';
 import { v4 as uuidv4 } from 'uuid';
 
-export default class CreatePatient {
+export default class UpdatePatient {
   private patientRepository: PatientRepository;
 
   constructor(patientRepository: PatientRepository) {
     this.patientRepository = patientRepository
   }
 
-  async execute(input: CreatePatientInput): Promise<Patient> {
+  async execute(patientId: string, input: CreatePatientInput): Promise<Patient> {
+    await this.patientRepository.findById(patientId)
     const patient = new Patient(
-      uuidv4(),
+      patientId,
       input.fullName,
       input.birthday,
       input.sex,
@@ -25,6 +26,6 @@ export default class CreatePatient {
       input.healthCare,
       input.linkPhoto
     )
-    return await this.patientRepository.save(patient)
+    return await this.patientRepository.update(patientId, patient)
   }
 }

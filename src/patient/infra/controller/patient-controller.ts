@@ -5,6 +5,7 @@ import CreatePatientInput from 'src/patient/application/dto/create-patient-input
 import GetPatients from 'src/patient/application/query/get-patients';
 import PatientDAO from 'src/patient/application/query/patient-DAO';
 import GetPatient from 'src/patient/application/query/get-patient';
+import UpdatePatient from 'src/patient/application/usecase/update-patient';
 
 export default class PatientController {
   constructor(
@@ -17,6 +18,16 @@ export default class PatientController {
       const createPatient = new CreatePatient(this.patientRepository)
       const patient = await createPatient.execute(input)
       return created(patient)
+    }  catch (error) {
+      return httpResponseError(error)
+    }
+  }
+
+  async update(patientId: string, input: CreatePatientInput) {
+    try {
+      const updatePatient = new UpdatePatient(this.patientRepository)
+      const patient = await updatePatient.execute(patientId, input)
+      return ok(patient)
     }  catch (error) {
       return httpResponseError(error)
     }

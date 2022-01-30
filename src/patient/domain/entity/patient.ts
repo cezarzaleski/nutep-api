@@ -10,11 +10,12 @@ export default class Patient {
   private readonly sex: Sex
   private readonly hospitalizationStatus: HospitalizationStatus
   private health: PatientHealth
+  readonly birthday: Date
 
   constructor(
     readonly id: string,
     readonly fullName: string,
-    readonly birthday: Date,
+    birthday: string,
     sex: string,
     hospitalizationStatus: string,
     hospitalId: string,
@@ -32,6 +33,8 @@ export default class Patient {
     if (cpf) this.cpf = Cpf.create(cpf)
     if (!Object.values(Sex).includes(sex as Sex)) throw new InvalidParamError('sex')
     if (!Object.values(HospitalizationStatus).includes(hospitalizationStatus as HospitalizationStatus)) throw new InvalidParamError('hospitalizationStatus')
+    this.birthday = new Date(birthday);
+    if (this.birthday.toString() === 'Invalid Date') throw new InvalidParamError('birthday')
     this.sex = sex as Sex;
     this.hospitalizationStatus = hospitalizationStatus as HospitalizationStatus;
   }

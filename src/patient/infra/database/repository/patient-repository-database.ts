@@ -62,4 +62,10 @@ export default class PatientRepositoryDatabase implements PatientRepository {
     if (patient) return MongoPatientSchema.toEntity(patient)
     throw new NotFoundError('Patient')
   }
+
+  async update(patientId: string, patient: Patient): Promise<Patient> {
+    await this.patientModel
+      .findOneAndUpdate({uuid: patientId}, MongoPatientSchema.toSchema(patient));
+    return patient
+  }
 }

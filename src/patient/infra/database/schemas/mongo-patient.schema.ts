@@ -41,7 +41,7 @@ export class MongoPatientSchema {
     return new Patient(
       patient.uuid,
       patient.fullName,
-      patient.birthday,
+      patient.birthday.toString(),
       patient.sex,
       patient.hospitalizationStatus,
       'hospitalId',
@@ -51,6 +51,21 @@ export class MongoPatientSchema {
       patient.healthCare,
       patient.linkPhoto
     )
+  }
+
+  static toSchema(patient: Patient): MongoPatientSchema {
+    return <MongoPatientSchema>{
+      uuid: patient.id,
+      fullName: patient.fullName,
+      birthday: patient.birthday,
+      sex: patient.getSex(),
+      hospitalizationStatus: patient.getHospitalizationStatus(),
+      cpf: patient.getCpf()?.value,
+      register: patient.register,
+      attendingPhysician: patient.attendingPhysician,
+      healthCare: patient.healthCare,
+      linkPhoto: patient.linkPhoto
+    };
   }
 }
 

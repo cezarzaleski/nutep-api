@@ -22,6 +22,9 @@ describe('Patient Router', () => {
     await MongoPatientModel.deleteMany({})
     await mongoose.connection.close();
   });
+  afterEach(async () => {
+    await MongoPatientModel.deleteMany({})
+  });
   describe('POST /api/patient', () => {
     let createPatientInput: CreatePatientInput
     createPatientInput = {
@@ -34,7 +37,7 @@ describe('Patient Router', () => {
     }
     it('should return 201 patient created', async () => {
       const { status, body } = await request(app.getHttpServer())
-        .post('/api/patient')
+        .post('/api/patients')
         .send(createPatientInput)
       // @ts-ignore
       const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({register: '1212'})
@@ -44,14 +47,13 @@ describe('Patient Router', () => {
     })
     it('should return 400 patient created', async () => {
       createPatientInput.birthday = '21/11/1988'
-      const { status, body } = await request(app.getHttpServer())
+      const { status } = await request(app.getHttpServer())
         .post('/api/patients')
         .send(createPatientInput)
       // @ts-ignore
       const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({register: '1212'})
       expect(status).toBe(400)
-      expect(body).not.toBeNull()
-      expect(patientSaved.register).toEqual('1212')
+      expect(patientSaved).toBeNull()
     })
   })
   describe('GET ALL /api/patients', () => {
@@ -61,7 +63,7 @@ describe('Patient Router', () => {
       patient = new Patient(
         uuidv4(),
         'dummy',
-        new Date('2000-11-23'),
+        '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
         uuidv4()
@@ -76,7 +78,21 @@ describe('Patient Router', () => {
       expect(body).not.toBeNull()
       expect(body[0].fullName).toEqual('dummy')
     })
-
+  })
+  describe('GET BY ID /api/patients/:id', () => {
+    let patient: Patient
+    beforeAll(async () => {
+      const patientRepository = new PatientRepositoryDatabase()
+      patient = new Patient(
+        uuidv4(),
+        'dummy',
+        '2000-11-23',
+        Sex.Masculine,
+        HospitalizationStatus.OnAdmission,
+        uuidv4()
+      );
+      patient = await patientRepository.save(patient)
+    })
     it('should return 200 find by id patients', async () => {
       const { status, body } = await request(app.getHttpServer())
         .get(`/api/patients/${patient.id}`)
@@ -84,6 +100,40 @@ describe('Patient Router', () => {
       expect(status).toBe(200)
       expect(body).not.toBeNull()
       expect(body.fullName).toEqual('dummy')
+    })
+  })
+  describe('UPDATE /api/patients/:id', () => {
+    let patient: Patient
+    beforeAll(async () => {
+      const patientRepository = new PatientRepositoryDatabase()
+      patient = new Patient(
+        uuidv4(),
+        'dummy-update',
+        '2000-11-23',
+        Sex.Masculine,
+        HospitalizationStatus.OnAdmission,
+        uuidv4()
+      );
+      patient = await patientRepository.save(patient)
+    })
+    it('should return 200 patient updated', async () => {
+      let createPatientInput: CreatePatientInput
+      createPatientInput = {
+        fullName: 'fullname update',
+        birthday: '2021-11-11',
+        sex: 'F',
+        register: '1212',
+        attendingPhysician: 'attendingPhysician',
+        healthCare: 'healthCare',
+      }
+      const { status, body } = await request(app.getHttpServer())
+        .put(`/api/patients/${patient.id}`)
+        .send(createPatientInput)
+      // @ts-ignore
+      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({uuid: patient.id})
+      expect(status).toBe(200)
+      expect(body).not.toBeNull()
+      expect(patientSaved.fullName).toEqual('fullname update')
     })
   })
 })
