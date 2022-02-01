@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import { nestApp } from 'src/shared/infra/http/nestjs';
 import { makeTestDb } from 'test/shared/infra/database/connection';
-import { MongoPatientModel, MongoPatientSchema } from 'src/patient/infra/database/schemas/mongo-patient.schema';
-import { CreatePatientInput } from 'src/shared/infra/http/nestjs/patient/input/create-patient-input';
-import { Sex } from 'src/patient/domain/entity/sex';
-import { HospitalizationStatus } from 'src/patient/domain/entity/hospitalization-status';
-import Patient from 'src/patient/domain/entity/patient';
+import { MongoPatientModel, MongoPatientSchema } from 'src/admission/infra/database/schemas/mongo-patient.schema';
+import { CreatePatientInput } from 'src/shared/infra/http/nestjs/admission/input/create-patient-input';
+import { Sex } from 'src/admission/domain/entity/sex';
+import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status';
+import Patient from 'src/admission/domain/entity/patient';
 import { v4 as uuidv4 } from 'uuid';
-import PatientRepositoryDatabase from 'src/patient/infra/database/repository/patient-repository-database';
+import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database';
 
 describe('Patient Router', () => {
   let app;
