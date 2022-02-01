@@ -3,6 +3,7 @@ import CreatePatientInput from 'src/admission/application/dto/create-patient-inp
 import Patient from 'src/admission/domain/entity/patient';
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status';
 import { v4 as uuidv4 } from 'uuid';
+import mongoose from 'mongoose';
 
 export default class CreatePatient {
   private patientRepository: PatientRepository;
@@ -13,7 +14,7 @@ export default class CreatePatient {
 
   async execute(input: CreatePatientInput): Promise<Patient> {
     const patient = new Patient(
-      uuidv4(),
+      new mongoose.Types.ObjectId().toString(),
       input.fullName,
       input.birthday,
       input.sex,

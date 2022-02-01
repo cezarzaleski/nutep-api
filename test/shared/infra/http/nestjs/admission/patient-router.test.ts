@@ -61,7 +61,7 @@ describe('Patient Router', () => {
     beforeAll(async () => {
       const patientRepository = new PatientRepositoryDatabase()
       patient = new Patient(
-        uuidv4(),
+        new mongoose.Types.ObjectId().toString(),
         'dummy',
         '2000-11-23',
         Sex.Masculine,
@@ -84,7 +84,7 @@ describe('Patient Router', () => {
     beforeAll(async () => {
       const patientRepository = new PatientRepositoryDatabase()
       patient = new Patient(
-        uuidv4(),
+        new mongoose.Types.ObjectId().toString(),
         'dummy',
         '2000-11-23',
         Sex.Masculine,
@@ -107,7 +107,7 @@ describe('Patient Router', () => {
     beforeAll(async () => {
       const patientRepository = new PatientRepositoryDatabase()
       patient = new Patient(
-        uuidv4(),
+        new mongoose.Types.ObjectId().toString(),
         'dummy-update',
         '2000-11-23',
         Sex.Masculine,

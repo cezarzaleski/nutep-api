@@ -9,8 +9,8 @@ import Patient from 'src/admission/domain/entity/patient';
 })
 export class MongoPatientSchema {
 
-  _id: string;
-  @Prop()
+  _id: any;
+  @Prop({index: true, unique: true})
   uuid: string;
   @Prop()
   fullName: string;

@@ -5,7 +5,7 @@ import { YesOrNo } from 'src/shared/domain/enum/yes-or-no';
 import InvalidParamError from 'src/shared/exception/invalid-param';
 import Diagnostic from 'src/admission/domain/entity/diagnostic';
 
-export default class PatientHealth {
+export default class InitialHealth {
   private readonly mechanicalVentilation: MechanicalVentilation
   private readonly consciousnessLevels: Array<ConsciousnessLevel>
   private readonly dialysis: YesOrNo
@@ -27,9 +27,9 @@ export default class PatientHealth {
   ) {
     if (!initialDescription) throw new EmptyParamError('initialDescription')
     if (typeVentilation && methodVentilation) this.mechanicalVentilation = new MechanicalVentilation(typeVentilation, methodVentilation)
-    PatientHealth.validateYesOrNo(dialysis, 'dialysis')
-    PatientHealth.validateYesOrNo(insulin, 'insulin')
-    PatientHealth.validateYesOrNo(oralDiet, 'oralDiet')
+    InitialHealth.validateYesOrNo(dialysis, 'dialysis')
+    InitialHealth.validateYesOrNo(insulin, 'insulin')
+    InitialHealth.validateYesOrNo(oralDiet, 'oralDiet')
     this.consciousnessLevels = []
     this.comorbidities = []
     this.allergies = []

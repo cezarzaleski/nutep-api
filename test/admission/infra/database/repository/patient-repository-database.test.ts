@@ -20,7 +20,7 @@ describe('PatientRepositoryDatabase', () => {
   let patient: Patient
   beforeAll(async () => {
     sut = new PatientRepositoryDatabase()
-    patient = new Patient(uuidv4(), 'fullName', '1988-11-21', Sex.Masculine,
+    patient = new Patient(new mongoose.Types.ObjectId().toString(), 'fullName', '1988-11-21', Sex.Masculine,
       HospitalizationStatus.OnAdmission, uuidv4(),
       '075.904.250-01', '121212', 'attendingPhysician', 'healthCare',
       'linkPhoto'

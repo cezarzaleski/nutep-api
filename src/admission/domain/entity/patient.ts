@@ -3,13 +3,11 @@ import EmptyParamError from 'src/shared/exception/empty-param';
 import { Sex } from 'src/admission/domain/entity/sex';
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status';
 import InvalidParamError from 'src/shared/exception/invalid-param';
-import PatientHealth from 'src/admission/domain/entity/patient-health';
 
 export default class Patient {
   private readonly cpf: Cpf
   private readonly sex: Sex
   private readonly hospitalizationStatus: HospitalizationStatus
-  private health: PatientHealth
   readonly birthday: Date
 
   constructor(
@@ -38,9 +36,7 @@ export default class Patient {
     this.sex = sex as Sex;
     this.hospitalizationStatus = hospitalizationStatus as HospitalizationStatus;
   }
-  setHealth(health: PatientHealth) { this.health = health}
   getCpf() { return this.cpf}
   getSex() { return this.sex}
   getHospitalizationStatus() { return this.hospitalizationStatus}
-  getHealth() { return this.health}
 }
