@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common'
+import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router';
@@ -44,5 +44,13 @@ export class AdmissionRouter {
   async findById(@Param('id') id: string, @Res() response: Response) {
     const admissionResponse = await this.admissionController.findById(id)
     return adaptNestJSResolver(admissionResponse, response)
+  }
+
+  @Put('/:admissionId')
+  @ApiResponse({status: HttpStatus.OK})
+  @ApiOperation({summary: 'Upate admission patient'})
+  async update(@Param('admissionId') admissionId: string, @Body() input: InitialAdmissionInput, @Res() response: Response) {
+    const patientResponse = await this.admissionController.update(admissionId, input)
+    return adaptNestJSResolver(patientResponse, response)
   }
 }

@@ -120,4 +120,48 @@ describe('Admission Router', () => {
       expect(body.fullName).toEqual('dummy')
     })
   })
+  describe('UPDATE /api/patients/:id', () => {
+    let patient: Patient
+    let admission: Admission
+    beforeAll(async () => {
+      const patientRepository = new PatientRepositoryDatabase()
+      const admissionRepository = new AdmissionRepositoryDatabase()
+      patient = new Patient(
+        new mongoose.Types.ObjectId().toString(),
+        'dummy-update',
+        '2000-11-23',
+        Sex.Masculine,
+        HospitalizationStatus.OnAdmission,
+        uuidv4()
+      );
+      patient = await patientRepository.save(patient)
+      admission = new Admission(
+        new mongoose.Types.ObjectId().toString(),
+        patient.id,
+        'initial'
+      );
+      admission = await admissionRepository.save(admission)
+    })
+    it('should return 200 admission updated', async () => {
+      let initialAdmissionInput: InitialAdmissionInput
+      let patientInput: PatientInput
+      patientInput = {
+        fullName: 'fullname update',
+        birthday: '2021-11-11',
+        sex: 'F',
+        register: '1212',
+        attendingPhysician: 'attendingPhysician',
+        healthCare: 'healthCare',
+      }
+      initialAdmissionInput = {patient: patientInput}
+      const { status, body } = await request(app.getHttpServer())
+        .put(`/api/admissions/${admission.id}`)
+        .send(initialAdmissionInput)
+      // @ts-ignore
+      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({_id: patient.id})
+      expect(status).toBe(200)
+      expect(body).not.toBeNull()
+      expect(patientSaved.fullName).toEqual('fullname update')
+    })
+  })
 })

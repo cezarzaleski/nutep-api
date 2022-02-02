@@ -44,4 +44,14 @@ export default class AdmissionController {
       return httpResponseError(error)
     }
   }
+
+  async update(admissionId: string, input: InitialAdmissionInput) {
+    try {
+      const initialAdmission = new InitialAdmission(this.patientRepository, this.admissionRepository)
+      const admission = await initialAdmission.execute(input, admissionId)
+      return ok(admission)
+    } catch (error) {
+      return httpResponseError(error)
+    }
+  }
 }

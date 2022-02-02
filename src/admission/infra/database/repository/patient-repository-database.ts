@@ -38,7 +38,7 @@ export default class PatientRepositoryDatabase implements PatientRepository {
 
   async update(patientId: string, patient: Patient): Promise<Patient> {
     await this.patientModel
-      .findOneAndUpdate({uuid: patientId}, MongoPatientSchema.toSchema(patient));
+      .findOneAndUpdate({_id: patientId}, MongoPatientSchema.toSchema(patient));
     return patient
   }
 }

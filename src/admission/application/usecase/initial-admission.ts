@@ -11,9 +11,15 @@ export default class InitialAdmission {
     this.patientRepository = patientRepository
     this.admissionRepository = admissionRepository
   }
-  async execute(input: InitialAdmissionInput): Promise<Admission> {
-    const patientSaved = await this.patientRepository.save(PatientInput.toEntity(input.patient))
-    const admission = new Admission(new mongoose.Types.ObjectId().toString(), patientSaved.id, 'initial')
+  async execute(input: InitialAdmissionInput, admissionId?: string): Promise<Admission> {
+    if (admissionId) {
+      const admissionSaved = await this.admissionRepository.findById(admissionId)
+      await this.patientRepository.findById(admissionSaved.patientId)
+      await this.patientRepository.update(admissionSaved.patientId, PatientInput.toEntity(input.patient))
+      return admissionSaved
+    }
+    const patientCreated = await this.patientRepository.save(PatientInput.toEntity(input.patient))
+    const admission = new Admission(new mongoose.Types.ObjectId().toString(), patientCreated.id, 'initial')
     return await this.admissionRepository.save(admission)
   }
 }
