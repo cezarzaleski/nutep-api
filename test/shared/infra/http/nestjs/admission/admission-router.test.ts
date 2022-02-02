@@ -41,8 +41,7 @@ describe('Admission Router', () => {
       'attendingPhysician'
     )
     initialAdmissionInput = {
-      patient: patientInput,
-      status: 'initial'
+      patient: patientInput
     }
     it('should return 201 patient initial admission', async () => {
       const {status, body} = await request(app.getHttpServer())

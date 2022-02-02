@@ -5,8 +5,7 @@ import mongoose from 'mongoose';
 
 export class InitialAdmissionInput {
   constructor(
-    readonly patient: PatientInput,
-    readonly status: string,
+    readonly patient: PatientInput
   ) {}
 }
 
