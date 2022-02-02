@@ -5,6 +5,13 @@ import { makeTestDb } from 'test/shared/infra/database/connection';
 import { MongoPatientModel, MongoPatientSchema } from 'src/admission/infra/database/schemas/mongo-patient.schema';
 import { MongoAdmissionModel, MongoAdmissionSchema } from 'src/admission/infra/database/schemas/mongo-admission.schema';
 import { InitialAdmissionInput, PatientInput } from 'src/admission/application/dto/initial-admission-input';
+import Patient from 'src/admission/domain/entity/patient';
+import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database';
+import { Sex } from 'src/admission/domain/entity/sex';
+import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status';
+import { v4 as uuidv4 } from 'uuid';
+import Admission from 'src/admission/domain/entity/admission';
+import AdmissionRepositoryDatabase from 'src/admission/infra/database/repository/admission-repository-database';
 
 describe('Admission Router', () => {
   let app;
@@ -50,6 +57,37 @@ describe('Admission Router', () => {
       expect(body).not.toBeNull()
       expect(patientSaved).not.toBeNull()
       expect(admissionSaved).not.toBeNull()
+    })
+  })
+  describe('GET ALL /api/admissions', () => {
+    let admission: Admission
+    let patient: Patient
+    beforeAll(async () => {
+      const admissionRepository = new AdmissionRepositoryDatabase()
+      const patientRepository = new PatientRepositoryDatabase()
+      patient = new Patient(
+        new mongoose.Types.ObjectId().toString(),
+        'dummy',
+        '2000-11-23',
+        Sex.Masculine,
+        HospitalizationStatus.OnAdmission,
+        uuidv4()
+      );
+      patient = await patientRepository.save(patient)
+      admission = new Admission(
+        new mongoose.Types.ObjectId().toString(),
+        patient.id,
+        'initial'
+      );
+      admission = await admissionRepository.save(admission)
+    })
+    it('should return 200 find all admissions none filter', async () => {
+      const { status, body } = await request(app.getHttpServer())
+        .get('/api/admissions')
+      // @ts-ignore
+      expect(status).toBe(200)
+      expect(body).not.toBeNull()
+      expect(body[0].fullName).toEqual('dummy')
     })
   })
 })
