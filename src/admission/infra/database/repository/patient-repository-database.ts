@@ -31,7 +31,7 @@ export default class PatientRepositoryDatabase implements PatientRepository {
 
   async findById(id: string): Promise<Patient> {
     // @ts-ignore
-    const patient: MongoPatientSchema = await this.patientModel.findOne({uuid: id});
+    const patient: MongoPatientSchema = await this.patientModel.findOne({_id: id});
     if (patient) return MongoPatientSchema.toEntity(patient)
     throw new NotFoundError('Patient')
   }

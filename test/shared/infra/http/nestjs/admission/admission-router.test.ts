@@ -89,4 +89,35 @@ describe('Admission Router', () => {
       expect(body[0].fullName).toEqual('dummy')
     })
   })
+  describe('GET BY ID /api/admissions/:id', () => {
+    let patient: Patient
+    let admission: Admission
+    beforeAll(async () => {
+      const admissionRepository = new AdmissionRepositoryDatabase()
+      const patientRepository = new PatientRepositoryDatabase()
+      patient = new Patient(
+        new mongoose.Types.ObjectId().toString(),
+        'dummy',
+        '2000-11-23',
+        Sex.Masculine,
+        HospitalizationStatus.OnAdmission,
+        uuidv4()
+      );
+      patient = await patientRepository.save(patient)
+      admission = new Admission(
+        new mongoose.Types.ObjectId().toString(),
+        patient.id,
+        'initial'
+      );
+      admission = await admissionRepository.save(admission)
+    })
+    it('should return 200 find by id patients', async () => {
+      const { status, body } = await request(app.getHttpServer())
+        .get(`/api/admissions/${admission.id}`)
+      // @ts-ignore
+      expect(status).toBe(200)
+      expect(body).not.toBeNull()
+      expect(body.fullName).toEqual('dummy')
+    })
+  })
 })

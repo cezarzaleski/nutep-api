@@ -5,6 +5,7 @@ import InitialAdmission from 'src/admission/application/usecase/initial-admissio
 import PatientRepository from 'src/admission/domain/repository/patient-repository';
 import AdmissionDAO from 'src/admission/application/query/admission-DAO';
 import GetAdmissions from 'src/admission/application/query/get-admissions';
+import GetAdmission from 'src/admission/application/query/get-admission';
 
 export default class AdmissionController {
   constructor(
@@ -30,6 +31,16 @@ export default class AdmissionController {
       const patients = await getAdmissions.execute()
       return ok(patients)
     } catch (error) {
+      return httpResponseError(error)
+    }
+  }
+
+  async findById(id: string) {
+    try {
+      const getAdmission = new GetAdmission(this.admissionRepository, this.patientRepository)
+      const patient = await getAdmission.execute(id)
+      return ok(patient)
+    }  catch (error) {
       return httpResponseError(error)
     }
   }
