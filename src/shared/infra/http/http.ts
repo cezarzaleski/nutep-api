@@ -1,25 +1,23 @@
-import { ServerError } from 'src/shared/exception/server-error';
-import EmptyParamError from 'src/shared/exception/empty-param';
-import InvalidEmailError from 'src/shared/exception/invalid-email';
-import NotFoundError from 'src/shared/exception/not-found';
-import InvalidParamError from 'src/shared/exception/invalid-param';
-import UnauthorizedError from 'src/authenticate/domain/exception/unauthorized';
-
+import { ServerError } from 'src/shared/exception/server-error'
+import EmptyParamError from 'src/shared/exception/empty-param'
+import InvalidEmailError from 'src/shared/exception/invalid-email'
+import NotFoundError from 'src/shared/exception/not-found'
+import InvalidParamError from 'src/shared/exception/invalid-param'
+import UnauthorizedError from 'src/authenticate/domain/exception/unauthorized'
 
 export type HttpResponse<T = any> = {
   statusCode: number
   body: T
 }
 
-export const badRequest = (error: Error): HttpResponse => ({
+export const badRequest = (error: Error | any): HttpResponse => ({
   statusCode: 400,
   body: {
     message: error.message
   }
 })
 
-
-export const httpResponseError = (error: Error): HttpResponse => {
+export const httpResponseError = (error: Error| unknown): HttpResponse => {
   const exceptionsBadRequest = [
     EmptyParamError,
     InvalidEmailError,
@@ -44,9 +42,9 @@ export const forbidden = (error: Error): HttpResponse => ({
   body: error
 })
 
-export const serverError = (error: Error): HttpResponse => ({
+export const serverError = (error: Error| any): HttpResponse => ({
   statusCode: 500,
-  body: new ServerError(error.stack)
+  body: new ServerError(error)
 })
 
 export const ok = (data: any): HttpResponse => ({
@@ -64,7 +62,7 @@ export const noContent = (): HttpResponse => ({
   body: null
 })
 
-export const notFound = (error): HttpResponse => ({
+export const notFound = (error: any): HttpResponse => ({
   statusCode: 404,
   body: error
 })

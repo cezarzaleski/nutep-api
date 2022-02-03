@@ -6,6 +6,11 @@
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-namespace": "off",
-    "@typescript-eslint/return-await": "off"
+    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/strict-boolean-expressions": [2,  {
+      "allowNullableBoolean": true,
+      "allowNullableString": true,
+      "allowNullableNumber": true
+    }]
   }
 }

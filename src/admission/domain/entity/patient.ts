@@ -1,16 +1,16 @@
-import Cpf from 'src/shared/domain/value-object/cpf';
-import EmptyParamError from 'src/shared/exception/empty-param';
-import { Sex } from 'src/admission/domain/entity/sex';
-import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status';
-import InvalidParamError from 'src/shared/exception/invalid-param';
+import Cpf from 'src/shared/domain/value-object/cpf'
+import EmptyParamError from 'src/shared/exception/empty-param'
+import { Sex } from 'src/admission/domain/entity/sex'
+import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
+import InvalidParamError from 'src/shared/exception/invalid-param'
 
 export default class Patient {
-  private readonly cpf: Cpf
+  private readonly cpf?: Cpf
   private readonly sex: Sex
   private readonly hospitalizationStatus: HospitalizationStatus
   readonly birthday: Date
 
-  constructor(
+  constructor (
     readonly id: string,
     readonly fullName: string,
     birthday: string,
@@ -31,12 +31,13 @@ export default class Patient {
     if (cpf) this.cpf = Cpf.create(cpf)
     if (!Object.values(Sex).includes(sex as Sex)) throw new InvalidParamError('sex')
     if (!Object.values(HospitalizationStatus).includes(hospitalizationStatus as HospitalizationStatus)) throw new InvalidParamError('hospitalizationStatus')
-    this.birthday = new Date(birthday);
+    this.birthday = new Date(birthday)
     if (this.birthday.toString() === 'Invalid Date') throw new InvalidParamError('birthday')
-    this.sex = sex as Sex;
-    this.hospitalizationStatus = hospitalizationStatus as HospitalizationStatus;
+    this.sex = sex as Sex
+    this.hospitalizationStatus = hospitalizationStatus as HospitalizationStatus
   }
-  getCpf() { return this.cpf}
-  getSex() { return this.sex}
-  getHospitalizationStatus() { return this.hospitalizationStatus}
+
+  getCpf (): Cpf | undefined { return this.cpf }
+  getSex (): Sex { return this.sex }
+  getHospitalizationStatus (): HospitalizationStatus { return this.hospitalizationStatus }
 }

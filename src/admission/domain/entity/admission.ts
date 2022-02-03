@@ -1,15 +1,13 @@
-import InitialHealth from 'src/admission/domain/entity/initial-health';
+import InitialHealth from 'src/admission/domain/entity/initial-health'
 
 export default class Admission {
-  private initialHealth?: InitialHealth
+  private readonly initialHealth?: InitialHealth
 
-  constructor(
+  constructor (
     readonly id: string,
     readonly patientId: string,
     readonly status: string
   ) {
 
   }
-  setInitialHealth(initialHealth: InitialHealth): void { this.initialHealth = initialHealth}
-  getInitialHealth() { return this.initialHealth}
 }

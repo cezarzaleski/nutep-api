@@ -1,5 +1,5 @@
 export default class CreatePatientInput {
-  constructor(
+  constructor (
     readonly fullName: string,
     readonly birthday: string,
     readonly sex: string,

@@ -1,7 +1,7 @@
 export default class MechanicalVentilation {
-
-  constructor(
+  constructor
+  (
     readonly type: string,
-    readonly method: string,
+    readonly method: string
   ) {}
 }
