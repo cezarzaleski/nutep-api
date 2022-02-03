@@ -1,6 +1,5 @@
 export default class GetPatientOutput {
-
-  constructor(
+  constructor (
     readonly id: string,
     readonly fullName: string,
     readonly birthday: Date,

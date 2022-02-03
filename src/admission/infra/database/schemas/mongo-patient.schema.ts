@@ -1,43 +1,54 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import { Sex } from 'src/admission/domain/entity/sex';
-import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status';
-import Patient from 'src/admission/domain/entity/patient';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import mongoose from 'mongoose'
+import { Sex } from 'src/admission/domain/entity/sex'
+import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
+import Patient from 'src/admission/domain/entity/patient'
 
 @Schema({
-  strict: false, timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}
+  strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
 export class MongoPatientSchema {
+  _id: any
+  @Prop({ index: true, unique: true })
+  uuid: string
 
-  _id: any;
-  @Prop({index: true, unique: true})
-  uuid: string;
   @Prop()
-  fullName: string;
+  fullName: string
+
   @Prop()
-  birthday: Date;
+  birthday: Date
+
   @Prop()
-  sex: Sex;
+  sex: Sex
+
   @Prop()
-  hospitalizationStatus: HospitalizationStatus;
+  hospitalizationStatus: HospitalizationStatus
+
   @Prop()
-  cpf: string;
+  cpf: string
+
   @Prop()
-  register: string;
+  register: string
+
   @Prop()
-  attendingPhysician: string;
+  attendingPhysician: string
+
   @Prop()
-  healthCare: string;
+  healthCare: string
+
   @Prop()
-  linkPhoto: string;
-  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'HealthPatients', index: true})
+  linkPhoto: string
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'HealthPatients', index: true })
   health: MongoPatientSchema
-  @Prop()
-  createdAt: Date;
-  @Prop()
-  updatedAt: Date;
 
-  static toEntity(patient: MongoPatientSchema): Patient {
+  @Prop()
+  createdAt: Date
+
+  @Prop()
+  updatedAt: Date
+
+  static toEntity (patient: MongoPatientSchema): Patient {
     return new Patient(
       patient.uuid,
       patient.fullName,
@@ -53,10 +64,10 @@ export class MongoPatientSchema {
     )
   }
 
-  static toSchema(patient: Patient): MongoPatientSchema {
+  static toSchema (patient: Patient): MongoPatientSchema {
     return <MongoPatientSchema>{
       uuid: patient.id,
-      fullName: patient.fullName,
+      fullName: patient.getFullName(),
       birthday: patient.birthday,
       sex: patient.getSex(),
       hospitalizationStatus: patient.getHospitalizationStatus(),
@@ -65,9 +76,8 @@ export class MongoPatientSchema {
       attendingPhysician: patient.attendingPhysician,
       healthCare: patient.healthCare,
       linkPhoto: patient.linkPhoto
-    };
+    }
   }
 }
 
-export const MongoPatientModel = mongoose.model('Patients', SchemaFactory.createForClass(MongoPatientSchema));
-
+export const MongoPatientModel = mongoose.model('Patients', SchemaFactory.createForClass(MongoPatientSchema))

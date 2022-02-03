@@ -10,7 +10,7 @@ export default class GetPatient {
     const patient = await this.patientRepository.findById(id)
     return new GetPatientOutput(
       patient.id,
-      patient.fullName,
+      patient.getFullName(),
       patient.birthday,
       patient.getSex(),
       patient.getCpf()?.value,

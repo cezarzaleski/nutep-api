@@ -7,16 +7,17 @@ import InvalidParamError from 'src/shared/exception/invalid-param'
 export default class Patient {
   private readonly cpf?: Cpf
   private readonly sex: Sex
+  private readonly fullName: string
   private readonly hospitalizationStatus: HospitalizationStatus
   readonly birthday: Date
 
   constructor (
     readonly id: string,
-    readonly fullName: string,
-    birthday: string,
-    sex: string,
-    hospitalizationStatus: string,
-    hospitalId: string,
+    fullName?: string,
+    birthday?: string,
+    sex?: string,
+    hospitalizationStatus?: string,
+    hospitalId?: string,
     cpf?: string,
     readonly register?: string,
     readonly attendingPhysician?: string,
@@ -34,9 +35,11 @@ export default class Patient {
     this.birthday = new Date(birthday)
     if (this.birthday.toString() === 'Invalid Date') throw new InvalidParamError('birthday')
     this.sex = sex as Sex
+    this.fullName = fullName
     this.hospitalizationStatus = hospitalizationStatus as HospitalizationStatus
   }
 
+  getFullName (): string { return this.fullName }
   getCpf (): Cpf | undefined { return this.cpf }
   getSex (): Sex { return this.sex }
   getHospitalizationStatus (): HospitalizationStatus { return this.hospitalizationStatus }

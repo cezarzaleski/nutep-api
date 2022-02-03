@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-
+import mongoose from 'mongoose'
 
 export const makeTestDb = async (): Promise<any> => {
-  await mongoose.connect(process.env.MONGO_URL);
+  // @ts-expect-error
+  await mongoose.connect(process?.env?.MONGO_URL)
 }
