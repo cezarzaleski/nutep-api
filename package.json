@@ -4,7 +4,8 @@
   "description": "APIs to use at APP of Núcleo de Terapia Nutricional Enteral e Parenteral - NUTEP",
   "main": "index.js",
   "scripts": {
-    "build": "npx nest build",
+    "prebuild": "rimraf dist",
+    "build": "nest build",
     "test": "jest --forceExit --detectOpenHandles",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",

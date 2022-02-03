@@ -1,0 +1,5 @@
+- adicionar conceito de admissão de paciente mantendo o vinculo na entidade de admission
+- criar caso de uso para initial-admission - mesmo caso de uso para criar e editar com API diferentes
+- criar caso de uso para initial-health - mesmo caso de uso para criar e editar com API diferentes
+- criar caso de uso para triage-patient - mesmo caso de uso para criar e editar com API diferentes
+- criar caso de uso para admission-finalize - mesmo caso de uso para criar e editar com API diferentes

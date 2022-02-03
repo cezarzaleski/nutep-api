@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 // @ts-expect-error
 import { Response } from 'express'
 import UserRepositoryDatabase from 'src/authenticate/infra/database/repository/user-repository-database'
-import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router'
+import { adaptNestJSResolver } from 'src/shared/infra/http/nestjs/nestjs-router'
 import UserController from 'src/authenticate/infra/controller/user-controller'
 
 @Controller('users')

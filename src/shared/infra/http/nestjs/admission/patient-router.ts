@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestj
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 // @ts-expect-error
 import { Response } from 'express'
-import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router'
+import { adaptNestJSResolver } from 'src/shared/infra/http/nestjs/nestjs-router'
 import { CreatePatientInput } from 'src/shared/infra/http/nestjs/admission/input/create-patient-input'
 import PatientController from 'src/admission/infra/controller/patient-controller'
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database'

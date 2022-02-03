@@ -1,4 +1,4 @@
-import UserRepository from '../repository/user-repository'
+import UserRepository from 'src/authenticate/domain/repository/user-repository';
 
 export default interface AbstractRepositoryFactory {
   createUserRepository: () => UserRepository
