@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router';
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database';
 import AdmissionController from 'src/admission/infra/controller/admission-controller';
 import { InitialAdmissionInput } from 'src/admission/application/dto/initial-admission-input';
 import AdmissionRepositoryDatabase from 'src/admission/infra/database/repository/admission-repository-database';
 import AdmissionDAODatabase from 'src/admission/infra/database/dao/admission-DAO-database';
+import { adaptNestJSResolver } from 'src/shared/infra/http/nestjs/nestjs-router';
 
 @Controller('admissions')
 @ApiTags('Admissions')

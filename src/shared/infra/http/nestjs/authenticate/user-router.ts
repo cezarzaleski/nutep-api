@@ -2,8 +2,8 @@ import { Controller, Get, HttpStatus, Param, Res } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import UserRepositoryDatabase from 'src/authenticate/infra/database/repository/user-repository-database';
-import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router';
 import UserController from 'src/authenticate/infra/controller/user-controller';
+import { adaptNestJSResolver } from 'src/shared/infra/http/nestjs/nestjs-router';
 
 @Controller('users')
 @ApiTags('User')

@@ -5,7 +5,7 @@ import AuthController from 'src/authenticate/infra/controller/auth-controller';
 import { LoginInput } from 'src/shared/infra/http/nestjs/authenticate/input/login-input';
 import UserRepositoryDatabase from 'src/authenticate/infra/database/repository/user-repository-database';
 import { JwtAdapter } from 'src/authenticate/infra/cryptography/jwt-adapter';
-import { adaptNestJSResolver } from 'test/shared/infra/http/nestjs/nestjs-router';
+import { adaptNestJSResolver } from 'src/shared/infra/http/nestjs/nestjs-router';
 
 @Controller('auth')
 @ApiTags('Authenticate')

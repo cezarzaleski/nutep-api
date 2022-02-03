@@ -14,7 +14,7 @@ export default class GetAdmission {
     const admission = await this.admissionRepository.findById(id);
     const patient = await this.patientRepository.findById(admission.patientId);
     return new GetPatientOutput(
-      patient.id,
+      admission.id,
       patient.fullName,
       patient.birthday,
       patient.getSex(),
