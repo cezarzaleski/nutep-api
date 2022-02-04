@@ -14,6 +14,10 @@ export default class CreateInitialHealth {
 
   async execute (input: InitialHealthInput, admissionId: string): Promise<InitialHealth> {
     const admissionSaved = await this.admissionRepository.findById(admissionId)
+    if (admissionSaved.getInitialHealthId()) {
+      // @ts-expect-error
+      return await this.initialHealthRepository.update(admissionSaved.getInitialHealthId(), InitialHealthInput.toEntity(input, admissionSaved.getInitialHealthId()))
+    }
     const initialHealthCreated = await this.initialHealthRepository.save(InitialHealthInput.toEntity(input))
     admissionSaved.setInitialHealth(initialHealthCreated.id)
     await this.admissionRepository.update(admissionId, admissionSaved)

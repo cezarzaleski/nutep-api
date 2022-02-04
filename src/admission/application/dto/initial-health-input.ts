@@ -15,9 +15,9 @@ export class InitialHealthInput {
     readonly allergies?: string[]
   ) {}
 
-  static toEntity (initialHealthInput: InitialHealthInput): InitialHealth {
+  static toEntity (initialHealthInput: InitialHealthInput, id?: string): InitialHealth {
     return new InitialHealth(
-      new mongoose.Types.ObjectId().toString(),
+      !id ? new mongoose.Types.ObjectId().toString() : id,
       initialHealthInput.initialDescription,
       initialHealthInput?.mechanicalVentilation,
       initialHealthInput.dialysis,

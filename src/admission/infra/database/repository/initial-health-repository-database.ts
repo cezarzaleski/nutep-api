@@ -20,10 +20,15 @@ export default class InitialHealthRepositoryDatabase implements InitialHealthRep
   }
 
   async findById (id: string): Promise<InitialHealth> {
-    // @ts-expect-error
-    const initialHealthSchema: MongoInitialHealthSchema = await this.initialHealthModel.findOne({ _id: id })
+    const initialHealthSchema: any = await this.initialHealthModel.findOne({ _id: id })
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (initialHealthSchema) return MongoInitialHealthSchema.toEntity(initialHealthSchema)
     throw new NotFoundError('initialHealth')
+  }
+
+  async update (id: string, initialHealth: InitialHealth): Promise<InitialHealth> {
+    const initialHealthSchema: any = await this.initialHealthModel
+      .findOneAndUpdate({ _id: id }, MongoInitialHealthSchema.toSchema(initialHealth))
+    return MongoInitialHealthSchema.toEntity(initialHealthSchema)
   }
 }

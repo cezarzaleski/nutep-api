@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Param, Post, Res } from '@nestjs/common'
+import { Body, Controller, HttpStatus, Param, Post, Put, Res } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 // @ts-expect-error
 import { Response } from 'express'
@@ -25,6 +25,14 @@ export class InitialHealthRouter {
   @ApiOperation({ summary: 'Add new initial health admission' })
   async create (@Param('admissionId') admissionId: string, @Body() input: InitialHealthInput, @Res() response: Response): Promise<any> {
     const admissionResponse = await this.initialHealthController.save(input, admissionId)
+    return adaptNestJSResolver(admissionResponse, response)
+  }
+
+  @Put('')
+  @ApiResponse({ status: HttpStatus.OK })
+  @ApiOperation({ summary: 'Add new initial health admission' })
+  async update (@Param('admissionId') admissionId: string, @Body() input: InitialHealthInput, @Res() response: Response): Promise<any> {
+    const admissionResponse = await this.initialHealthController.update(input, admissionId)
     return adaptNestJSResolver(admissionResponse, response)
   }
 }
