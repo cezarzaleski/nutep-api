@@ -68,7 +68,8 @@ export class MongoInitialHealthSchema {
       mongoInitialHealthSchema.insulin,
       mongoInitialHealthSchema.oralDiet,
       mongoInitialHealthSchema.comorbidities,
-      mongoInitialHealthSchema.allergies
+      mongoInitialHealthSchema.allergies,
+      mongoInitialHealthSchema.consciousnessLevels
     )
   }
 }
