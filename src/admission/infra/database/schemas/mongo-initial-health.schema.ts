@@ -70,7 +70,7 @@ export class MongoInitialHealthSchema {
       mongoInitialHealthSchema.comorbidities,
       mongoInitialHealthSchema.allergies,
       mongoInitialHealthSchema.consciousnessLevels
-    )
+    ).addDiagnostics(mongoInitialHealthSchema.diagnostics)
   }
 }
 

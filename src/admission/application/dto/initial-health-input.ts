@@ -10,13 +10,13 @@ export class InitialHealthInput {
     readonly dialysis?: string,
     readonly insulin?: string,
     readonly oralDiet?: string,
-    readonly diagnostics?: DiagnosticInput,
+    readonly diagnostics?: DiagnosticInput[],
     readonly comorbidities?: string[],
     readonly allergies?: string[]
   ) {}
 
   static toEntity (initialHealthInput: InitialHealthInput, id?: string): InitialHealth {
-    return new InitialHealth(
+    const initialHealth = new InitialHealth(
       !id ? new mongoose.Types.ObjectId().toString() : id,
       initialHealthInput.initialDescription,
       initialHealthInput?.mechanicalVentilation,
@@ -27,6 +27,10 @@ export class InitialHealthInput {
       initialHealthInput.allergies,
       initialHealthInput.consciousnessLevels
     )
+    if (initialHealthInput.diagnostics) {
+      initialHealth.addDiagnostics(initialHealthInput.diagnostics)
+    }
+    return initialHealth
   }
 }
 

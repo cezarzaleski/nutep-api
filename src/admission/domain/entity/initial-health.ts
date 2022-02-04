@@ -44,8 +44,15 @@ export default class InitialHealth {
     this.initialDescription = initialDescription
   }
 
-  addDiagnostic (diagnostic: Diagnostic): void {
+  addDiagnostic (diagnostic: Diagnostic): InitialHealth {
     this.diagnostics.push(diagnostic)
+    return this
+  }
+
+  addDiagnostics (diagnostics?: Diagnostic[]): InitialHealth {
+    if (!diagnostics || !diagnostics.length) return this
+    diagnostics.forEach(diagnostic => this.addDiagnostic(diagnostic))
+    return this
   }
 
   addComorbidity (comorbidity: string): void {
