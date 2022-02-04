@@ -7,7 +7,7 @@ import Diagnostic from 'src/admission/domain/entity/diagnostic'
 export default class InitialHealth {
   initialDescription: string
   private readonly mechanicalVentilation?: MechanicalVentilation
-  private readonly consciousnessLevels: ConsciousnessLevel[]
+  private readonly consciousnessLevels: ConsciousnessLevel[] = []
   private readonly dialysis: YesOrNo
   private readonly insulin: YesOrNo
   private readonly oralDiet: YesOrNo
@@ -76,7 +76,7 @@ export default class InitialHealth {
   }
 
   addConsciousnessLevel (consciousnessLevel: ConsciousnessLevel): void {
-    this.allergies.push(consciousnessLevel)
+    this.consciousnessLevels.push(consciousnessLevel)
   }
 
   getMechanicalVentilation (): MechanicalVentilation | undefined { return this.mechanicalVentilation }
