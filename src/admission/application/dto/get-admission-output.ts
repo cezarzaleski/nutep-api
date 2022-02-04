@@ -1,15 +1,12 @@
-export default class GetPatientOutput {
+import PatientOutput from 'src/admission/application/dto/patient-output'
+import InitialHealthOutput from 'src/admission/application/dto/initial-health-output'
 
-  constructor(
+export default class GetAdmissionOutput {
+  public initialHealth?: InitialHealthOutput
+  constructor (
     readonly id: string,
-    readonly fullName: string,
-    readonly birthday: Date,
-    readonly sex: string,
-    readonly cpf?: string,
-    readonly register?: string,
-    readonly attendingPhysician?: string,
-    readonly healthCare?: string,
-    readonly linkPhoto?: string
+    readonly patient: PatientOutput,
+    readonly status: string
   ) {
   }
 }

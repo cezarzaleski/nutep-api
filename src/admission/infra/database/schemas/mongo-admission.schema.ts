@@ -29,7 +29,7 @@ export class MongoAdmissionSchema {
       admissionSchema._id.toString(),
       admissionSchema.patient._id.toString(),
       admissionSchema.status
-    )
+    ).setInitialHealth(admissionSchema?.initialHealth?._id.toString())
   }
 
   static toSchema (admission: Admission): MongoAdmissionSchema {

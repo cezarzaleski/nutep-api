@@ -6,12 +6,14 @@ import PatientRepository from 'src/admission/domain/repository/patient-repositor
 import AdmissionDAO from 'src/admission/application/query/admission-DAO'
 import GetAdmissions from 'src/admission/application/query/get-admissions'
 import GetAdmission from 'src/admission/application/query/get-admission'
+import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
 
 export default class AdmissionController {
   constructor (
     private readonly admissionRepository: AdmissionRepository,
     private readonly patientRepository: PatientRepository,
-    private readonly admissionDAO: AdmissionDAO
+    private readonly admissionDAO: AdmissionDAO,
+    private readonly initialHealthRepository: InitialHealthRepository
   ) {
   }
 
@@ -37,7 +39,7 @@ export default class AdmissionController {
 
   async findById (id: string): Promise<any> {
     try {
-      const getAdmission = new GetAdmission(this.admissionRepository, this.patientRepository)
+      const getAdmission = new GetAdmission(this.admissionRepository, this.patientRepository, this.initialHealthRepository)
       const patient = await getAdmission.execute(id)
       return ok(patient)
     } catch (error) {

@@ -68,4 +68,5 @@ export default class InitialHealth {
   getDialysis (): YesOrNo { return this.dialysis }
   getInsulin (): YesOrNo { return this.insulin }
   getOralDiet (): YesOrNo { return this.oralDiet }
+  getDiagnostics (): Diagnostic[] { return this.diagnostics }
 }

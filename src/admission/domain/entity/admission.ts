@@ -7,8 +7,9 @@ export default class Admission {
     readonly status: string
   ) {}
 
-  setInitialHealth (initialHealthId: string): void {
+  setInitialHealth (initialHealthId?: string): Admission {
     this.initialHealthId = initialHealthId
+    return this
   }
 
   getInitialHealthId (): string | undefined {
