@@ -1,59 +1,76 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import MechanicalVentilation from 'src/admission/domain/entity/mechanical-ventilation';
-import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level';
-import Diagnostic from 'src/admission/domain/entity/diagnostic';
-import InitialHealth from 'src/admission/domain/entity/initial-health';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import mongoose from 'mongoose'
+import MechanicalVentilation from 'src/admission/domain/entity/mechanical-ventilation'
+import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
+import Diagnostic from 'src/admission/domain/entity/diagnostic'
+import InitialHealth from 'src/admission/domain/entity/initial-health'
 
 @Schema({
   strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
 export class MongoInitialHealthSchema {
-  _id: string;
-  @Prop({index: true, unique: true})
-  uuid: string;
+  _id: any
   @Prop()
-  initialDescription: string;
+  initialDescription: string
+
   @Prop()
-  dialysis: string;
+  dialysis: string
+
   @Prop()
-  insulin: string;
+  insulin: string
+
   @Prop()
-  oralDiet: string;
+  oralDiet: string
+
   @Prop()
-  diagnostics: Array<Diagnostic>
+  diagnostics: Diagnostic[]
+
   @Prop()
-  comorbidities: Array<string>
+  comorbidities: string[]
+
   @Prop()
-  allergies: Array<string>
+  allergies: string[]
+
   @Prop()
   mechanicalVentilation: MechanicalVentilation
-  @Prop()
-  consciousnessLevels: Array<ConsciousnessLevel>
-  @Prop()
-  pressureInjury?: string
-  @Prop()
-  createdAt: Date;
-  @Prop()
-  updatedAt: Date;
 
-  static toSchema(initialHealth: InitialHealth): MongoInitialHealthSchema {
+  @Prop()
+  consciousnessLevels: ConsciousnessLevel[]
+
+  @Prop()
+  createdAt: Date
+
+  @Prop()
+  updatedAt: Date
+
+  static toSchema (initialHealth: InitialHealth): MongoInitialHealthSchema {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     return <MongoInitialHealthSchema>{
-      uuid: initialHealth.id,
+      _id: initialHealth.id,
       initialDescription: initialHealth.initialDescription,
-      dialysis: initialHealth.getDialysis(),
-      insulin: initialHealth.getInsulin(),
-      oralDiet: initialHealth.getOralDiet(),
+      dialysis: initialHealth.getDialysis().toString(),
+      insulin: initialHealth.getInsulin().toString(),
+      oralDiet: initialHealth.getOralDiet().toString(),
       diagnostics: initialHealth.getInitialDiagnosis(),
       comorbidities: initialHealth.getComorbidities(),
       allergies: initialHealth.getAllergies(),
       mechanicalVentilation: initialHealth.getMechanicalVentilation(),
-      consciousnessLevels: initialHealth.getConsciousnessLevels(),
-      pressureInjury: initialHealth.pressureInjury
-    };
+      consciousnessLevels: initialHealth.getConsciousnessLevels()
+    }
+  }
+
+  static toEntity (mongoInitialHealthSchema: MongoInitialHealthSchema): InitialHealth {
+    return new InitialHealth(
+      mongoInitialHealthSchema._id,
+      mongoInitialHealthSchema.initialDescription,
+      mongoInitialHealthSchema.mechanicalVentilation,
+      mongoInitialHealthSchema.dialysis,
+      mongoInitialHealthSchema.insulin,
+      mongoInitialHealthSchema.oralDiet,
+      mongoInitialHealthSchema.comorbidities,
+      mongoInitialHealthSchema.allergies
+    )
   }
 }
 
-
-export const MongoInitialHealthSchemaModel = mongoose.model('InitialHealth', SchemaFactory.createForClass(MongoInitialHealthSchema));
-
+export const MongoInitialHealthModel = mongoose.model('InitialHealth', SchemaFactory.createForClass(MongoInitialHealthSchema))

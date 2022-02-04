@@ -1,11 +1,11 @@
 import EmptyParamError from 'src/shared/exception/empty-param'
 import MechanicalVentilation from 'src/admission/domain/entity/mechanical-ventilation'
 import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
-import { YesOrNo } from 'src/shared/domain/enum/yes-or-no'
-import InvalidParamError from 'src/shared/exception/invalid-param'
+import { validateYesOrNo, YesOrNo } from 'src/shared/domain/enum/yes-or-no'
 import Diagnostic from 'src/admission/domain/entity/diagnostic'
 
 export default class InitialHealth {
+  initialDescription: string
   private readonly mechanicalVentilation?: MechanicalVentilation
   private readonly consciousnessLevels: ConsciousnessLevel[]
   private readonly dialysis: YesOrNo
@@ -17,26 +17,31 @@ export default class InitialHealth {
 
   constructor (
     readonly id: string,
-    readonly initialDescription: string,
-    typeVentilation: string,
-    methodVentilation: string,
-    dialysis: string,
-    insulin: string,
-    oralDiet: string,
-    readonly pressureInjury?: string
+    initialDescription?: string,
+    mechanicalVentilation?: MechanicalVentilation,
+    dialysis?: string,
+    insulin?: string,
+    oralDiet?: string,
+    comorbidities?: string[],
+    allergies?: string[],
+    consciousnessLevels?: ConsciousnessLevel[]
   ) {
     if (!initialDescription) throw new EmptyParamError('initialDescription')
-    if (typeVentilation && methodVentilation) this.mechanicalVentilation = new MechanicalVentilation(typeVentilation, methodVentilation)
-    InitialHealth.validateYesOrNo(dialysis, 'dialysis')
-    InitialHealth.validateYesOrNo(insulin, 'insulin')
-    InitialHealth.validateYesOrNo(oralDiet, 'oralDiet')
-    this.consciousnessLevels = []
-    this.comorbidities = []
-    this.allergies = []
+    if (!dialysis) throw new EmptyParamError('dialysis')
+    if (!insulin) throw new EmptyParamError('insulin')
+    if (!oralDiet) throw new EmptyParamError('oralDiet')
+    this.mechanicalVentilation = mechanicalVentilation
+    validateYesOrNo(dialysis, 'dialysis')
+    validateYesOrNo(insulin, 'insulin')
+    validateYesOrNo(oralDiet, 'oralDiet')
+    this.consciousnessLevels = !consciousnessLevels ? [] : consciousnessLevels
+    this.comorbidities = !comorbidities ? [] : comorbidities
+    this.allergies = !allergies ? [] : allergies
     this.diagnostics = []
     this.dialysis = dialysis as YesOrNo
     this.insulin = insulin as YesOrNo
     this.oralDiet = oralDiet as YesOrNo
+    this.initialDescription = initialDescription
   }
 
   addDiagnostic (diagnostic: Diagnostic): void {
@@ -63,8 +68,4 @@ export default class InitialHealth {
   getDialysis (): YesOrNo { return this.dialysis }
   getInsulin (): YesOrNo { return this.insulin }
   getOralDiet (): YesOrNo { return this.oralDiet }
-
-  private static validateYesOrNo (field: string, name: string): any {
-    if (!Object.values(YesOrNo).includes(field as YesOrNo)) throw new InvalidParamError(name)
-  }
 }

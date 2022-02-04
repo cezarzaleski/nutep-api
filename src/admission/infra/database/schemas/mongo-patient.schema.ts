@@ -50,7 +50,7 @@ export class MongoPatientSchema {
 
   static toEntity (patient: MongoPatientSchema): Patient {
     return new Patient(
-      patient.uuid,
+      patient._id,
       patient.fullName,
       patient.birthday.toString(),
       patient.sex,
@@ -65,6 +65,7 @@ export class MongoPatientSchema {
   }
 
   static toSchema (patient: Patient): MongoPatientSchema {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     return <MongoPatientSchema>{
       uuid: patient.id,
       fullName: patient.getFullName(),

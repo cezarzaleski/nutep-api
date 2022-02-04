@@ -1,25 +1,30 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import Admission from 'src/admission/domain/entity/admission';
-import { MongoPatientSchema } from 'src/admission/infra/database/schemas/mongo-patient.schema';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import mongoose from 'mongoose'
+import Admission from 'src/admission/domain/entity/admission'
+import { MongoPatientSchema } from 'src/admission/infra/database/schemas/mongo-patient.schema'
+import { MongoInitialHealthSchema } from 'src/admission/infra/database/schemas/mongo-initial-health.schema'
 
 @Schema({
-  strict: false, timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}
+  strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
 export class MongoAdmissionSchema {
-  _id: any;
+  _id: any
   @Prop()
-  status: string;
-  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Patients', index: true})
-  patient: MongoPatientSchema
-  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'HealthPatients'})
-  health?: MongoAdmissionSchema
-  @Prop()
-  createdAt: Date;
-  @Prop()
-  updatedAt: Date;
+  status: string
 
-  static toEntity(admissionSchema: MongoAdmissionSchema): Admission {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Patients', index: true })
+  patient: MongoPatientSchema
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'InitialHealth' })
+  initialHealth?: MongoInitialHealthSchema
+
+  @Prop()
+  createdAt: Date
+
+  @Prop()
+  updatedAt: Date
+
+  static toEntity (admissionSchema: MongoAdmissionSchema): Admission {
     return new Admission(
       admissionSchema._id.toString(),
       admissionSchema.patient._id.toString(),
@@ -27,14 +32,18 @@ export class MongoAdmissionSchema {
     )
   }
 
-  static toSchema(admission: Admission): MongoAdmissionSchema {
-    return <MongoAdmissionSchema>{
+  static toSchema (admission: Admission): MongoAdmissionSchema {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const mongoAdmissionSchema = <MongoAdmissionSchema>{
       _id: admission.id,
       status: admission.status,
-      patient: {_id: admission.patientId}
-    };
+      patient: { _id: admission.patientId }
+    }
+    if (admission.getInitialHealthId()) { // @ts-expect-error
+      mongoAdmissionSchema.initialHealth = { _id: admission.getInitialHealthId() }
+    }
+    return mongoAdmissionSchema
   }
 }
 
-export const MongoAdmissionModel = mongoose.model('Admissions', SchemaFactory.createForClass(MongoAdmissionSchema));
-
+export const MongoAdmissionModel = mongoose.model('Admissions', SchemaFactory.createForClass(MongoAdmissionSchema))
