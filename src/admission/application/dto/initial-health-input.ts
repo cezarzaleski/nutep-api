@@ -12,7 +12,8 @@ export class InitialHealthInput {
     readonly oralDiet?: string,
     readonly diagnostics?: DiagnosticInput[],
     readonly comorbidities?: string[],
-    readonly allergies?: string[]
+    readonly allergies?: string[],
+    readonly lesion?: LesionInput
   ) {}
 
   static toEntity (initialHealthInput: InitialHealthInput, id?: string): InitialHealth {
@@ -27,6 +28,7 @@ export class InitialHealthInput {
       .addAllergys(initialHealthInput.allergies)
       .addConsciousnessLevels(initialHealthInput.consciousnessLevels)
       .addComorbidities(initialHealthInput.comorbidities)
+      .setLesion(initialHealthInput.lesion?.has, initialHealthInput.lesion?.type)
   }
 }
 
@@ -40,5 +42,10 @@ export class MechanicalVentilationInput {
 
 export class DiagnosticInput {
   constructor (readonly cid: string, readonly note: string) {
+  }
+}
+
+export class LesionInput {
+  constructor (readonly has?: string, readonly type?: string) {
   }
 }

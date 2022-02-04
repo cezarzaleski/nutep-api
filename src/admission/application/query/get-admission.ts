@@ -46,6 +46,7 @@ export default class GetAdmission {
         initialHealth.getDiagnostics(),
         initialHealth.getComorbidities(),
         initialHealth.getAllergies(),
+        initialHealth.getLesion(),
         initialHealth.getMechanicalVentilation()
       )
     }

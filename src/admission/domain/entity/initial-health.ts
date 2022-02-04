@@ -3,6 +3,7 @@ import MechanicalVentilation from 'src/admission/domain/entity/mechanical-ventil
 import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
 import { validateYesOrNo, YesOrNo } from 'src/shared/domain/enum/yes-or-no'
 import Diagnostic from 'src/admission/domain/entity/diagnostic'
+import Lesion from 'src/admission/domain/entity/lesion'
 
 export default class InitialHealth {
   initialDescription: string
@@ -14,6 +15,7 @@ export default class InitialHealth {
   private readonly diagnostics: Diagnostic[] = []
   private readonly comorbidities: string[] = []
   private readonly allergies: string[] = []
+  private lesion: Lesion
 
   constructor (
     readonly id: string,
@@ -79,6 +81,11 @@ export default class InitialHealth {
     this.consciousnessLevels.push(consciousnessLevel)
   }
 
+  setLesion (has?: string, type?: string): InitialHealth {
+    this.lesion = new Lesion(has, type)
+    return this
+  }
+
   getMechanicalVentilation (): MechanicalVentilation | undefined { return this.mechanicalVentilation }
   getConsciousnessLevels (): ConsciousnessLevel[] { return this.consciousnessLevels }
   getComorbidities (): string[] { return this.comorbidities }
@@ -88,4 +95,5 @@ export default class InitialHealth {
   getInsulin (): YesOrNo { return this.insulin }
   getOralDiet (): YesOrNo { return this.oralDiet }
   getDiagnostics (): Diagnostic[] { return this.diagnostics }
+  getLesion (): Lesion { return this.lesion }
 }

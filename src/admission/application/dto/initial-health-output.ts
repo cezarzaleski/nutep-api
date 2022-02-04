@@ -1,7 +1,7 @@
-import MechanicalVentilation from 'src/admission/domain/entity/mechanical-ventilation'
 import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
 import { YesOrNo } from 'src/shared/domain/enum/yes-or-no'
 import Diagnostic from 'src/admission/domain/entity/diagnostic'
+import { LesionInput, MechanicalVentilationInput } from 'src/admission/application/dto/initial-health-input'
 
 export default class InitialHealthOutput {
   constructor (
@@ -14,7 +14,8 @@ export default class InitialHealthOutput {
     readonly diagnostics: Diagnostic[],
     readonly comorbidities: string[],
     readonly allergies: string[],
-    readonly mechanicalVentilation?: MechanicalVentilation
+    readonly lesion: LesionInput,
+    readonly mechanicalVentilation?: MechanicalVentilationInput
   ) {
   }
 }

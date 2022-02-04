@@ -4,6 +4,7 @@ import MechanicalVentilation from 'src/admission/domain/entity/mechanical-ventil
 import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
 import Diagnostic from 'src/admission/domain/entity/diagnostic'
 import InitialHealth from 'src/admission/domain/entity/initial-health'
+import Lesion from 'src/admission/domain/entity/lesion'
 
 @Schema({
   strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
@@ -24,6 +25,9 @@ export class MongoInitialHealthSchema {
 
   @Prop()
   diagnostics: Diagnostic[]
+
+  @Prop()
+  lesion: Lesion
 
   @Prop()
   comorbidities: string[]
@@ -55,7 +59,8 @@ export class MongoInitialHealthSchema {
       comorbidities: initialHealth.getComorbidities(),
       allergies: initialHealth.getAllergies(),
       mechanicalVentilation: initialHealth.getMechanicalVentilation(),
-      consciousnessLevels: initialHealth.getConsciousnessLevels()
+      consciousnessLevels: initialHealth.getConsciousnessLevels(),
+      lesion: initialHealth.getLesion()
     }
   }
 
@@ -72,6 +77,7 @@ export class MongoInitialHealthSchema {
       .addAllergys(mongoInitialHealthSchema.allergies)
       .addConsciousnessLevels(mongoInitialHealthSchema.consciousnessLevels)
       .addComorbidities(mongoInitialHealthSchema.comorbidities)
+      .setLesion(mongoInitialHealthSchema.lesion.has, mongoInitialHealthSchema.lesion.type)
   }
 }
 
