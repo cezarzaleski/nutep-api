@@ -1,11 +1,12 @@
 import mongoose from 'mongoose'
 import InitialHealth from 'src/admission/domain/entity/initial-health'
+import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
 
 export class InitialHealthInput {
   constructor (
     readonly initialDescription?: string,
     readonly mechanicalVentilation?: MechanicalVentilationInput,
-    readonly consciousnessLevels?: string[],
+    readonly consciousnessLevels?: ConsciousnessLevel[],
     readonly dialysis?: string,
     readonly insulin?: string,
     readonly oralDiet?: string,
@@ -23,7 +24,8 @@ export class InitialHealthInput {
       initialHealthInput.insulin,
       initialHealthInput.oralDiet,
       initialHealthInput.comorbidities,
-      initialHealthInput.allergies
+      initialHealthInput.allergies,
+      initialHealthInput.consciousnessLevels
     )
   }
 }
