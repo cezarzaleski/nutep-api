@@ -16,21 +16,17 @@ export class InitialHealthInput {
   ) {}
 
   static toEntity (initialHealthInput: InitialHealthInput, id?: string): InitialHealth {
-    const initialHealth = new InitialHealth(
+    return new InitialHealth(
       !id ? new mongoose.Types.ObjectId().toString() : id,
       initialHealthInput.initialDescription,
       initialHealthInput?.mechanicalVentilation,
       initialHealthInput.dialysis,
       initialHealthInput.insulin,
-      initialHealthInput.oralDiet,
-      initialHealthInput.comorbidities,
-      initialHealthInput.allergies,
-      initialHealthInput.consciousnessLevels
-    )
-    if (initialHealthInput.diagnostics) {
-      initialHealth.addDiagnostics(initialHealthInput.diagnostics)
-    }
-    return initialHealth
+      initialHealthInput.oralDiet
+    ).addDiagnostics(initialHealthInput.diagnostics)
+      .addAllergys(initialHealthInput.allergies)
+      .addConsciousnessLevels(initialHealthInput.consciousnessLevels)
+      .addComorbidities(initialHealthInput.comorbidities)
   }
 }
 

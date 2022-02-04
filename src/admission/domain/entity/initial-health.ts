@@ -11,9 +11,9 @@ export default class InitialHealth {
   private readonly dialysis: YesOrNo
   private readonly insulin: YesOrNo
   private readonly oralDiet: YesOrNo
-  private readonly diagnostics: Diagnostic[]
-  private readonly comorbidities: string[]
-  private readonly allergies: string[]
+  private readonly diagnostics: Diagnostic[] = []
+  private readonly comorbidities: string[] = []
+  private readonly allergies: string[] = []
 
   constructor (
     readonly id: string,
@@ -21,10 +21,7 @@ export default class InitialHealth {
     mechanicalVentilation?: MechanicalVentilation,
     dialysis?: string,
     insulin?: string,
-    oralDiet?: string,
-    comorbidities?: string[],
-    allergies?: string[],
-    consciousnessLevels?: ConsciousnessLevel[]
+    oralDiet?: string
   ) {
     if (!initialDescription) throw new EmptyParamError('initialDescription')
     if (!dialysis) throw new EmptyParamError('dialysis')
@@ -34,10 +31,6 @@ export default class InitialHealth {
     validateYesOrNo(dialysis, 'dialysis')
     validateYesOrNo(insulin, 'insulin')
     validateYesOrNo(oralDiet, 'oralDiet')
-    this.consciousnessLevels = !consciousnessLevels ? [] : consciousnessLevels
-    this.comorbidities = !comorbidities ? [] : comorbidities
-    this.allergies = !allergies ? [] : allergies
-    this.diagnostics = []
     this.dialysis = dialysis as YesOrNo
     this.insulin = insulin as YesOrNo
     this.oralDiet = oralDiet as YesOrNo
@@ -55,12 +48,31 @@ export default class InitialHealth {
     return this
   }
 
-  addComorbidity (comorbidity: string): void {
+  addComorbidities (comorbidities?: string[]): InitialHealth {
+    if (!comorbidities || !comorbidities.length) return this
+    comorbidities.forEach(comorbidity => this.addComorbidity(comorbidity))
+    return this
+  }
+
+  addComorbidity (comorbidity: string): InitialHealth {
     this.comorbidities.push(comorbidity)
+    return this
+  }
+
+  addAllergys (allergys?: string[]): InitialHealth {
+    if (!allergys || !allergys.length) return this
+    allergys.forEach(allergy => this.addAllergy(allergy))
+    return this
   }
 
   addAllergy (allergy: string): void {
     this.allergies.push(allergy)
+  }
+
+  addConsciousnessLevels (consciousnessLevels?: ConsciousnessLevel[]): InitialHealth {
+    if (!consciousnessLevels || !consciousnessLevels.length) return this
+    consciousnessLevels.forEach(consciousnessLevel => this.addConsciousnessLevel(consciousnessLevel))
+    return this
   }
 
   addConsciousnessLevel (consciousnessLevel: ConsciousnessLevel): void {

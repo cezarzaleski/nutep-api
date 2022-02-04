@@ -66,11 +66,12 @@ export class MongoInitialHealthSchema {
       mongoInitialHealthSchema.mechanicalVentilation,
       mongoInitialHealthSchema.dialysis,
       mongoInitialHealthSchema.insulin,
-      mongoInitialHealthSchema.oralDiet,
-      mongoInitialHealthSchema.comorbidities,
-      mongoInitialHealthSchema.allergies,
-      mongoInitialHealthSchema.consciousnessLevels
-    ).addDiagnostics(mongoInitialHealthSchema.diagnostics)
+      mongoInitialHealthSchema.oralDiet
+    )
+      .addDiagnostics(mongoInitialHealthSchema.diagnostics)
+      .addAllergys(mongoInitialHealthSchema.allergies)
+      .addConsciousnessLevels(mongoInitialHealthSchema.consciousnessLevels)
+      .addComorbidities(mongoInitialHealthSchema.comorbidities)
   }
 }
 
