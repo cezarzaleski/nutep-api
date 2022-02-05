@@ -20,7 +20,6 @@ const startServer = async () => {
   database
     .connect()
     .then(async () => {
-      // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       await app.listen(port, () => console.log(`server running at: http://localhost:${port}/api`))
     })

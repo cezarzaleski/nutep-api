@@ -1,13 +1,13 @@
-import AdmissionRepository from 'src/admission/domain/repository/admission-repository'
+import PatientAdmissionRepository from 'src/admission/domain/repository/patient-admission-repository'
 import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
 import InitialHealth from 'src/admission/domain/entity/initial-health'
 import { InitialHealthInput } from 'src/admission/application/dto/initial-health-input'
 
 export default class CreateInitialHealth {
   private readonly initialHealthRepository: InitialHealthRepository
-  private readonly admissionRepository: AdmissionRepository
+  private readonly admissionRepository: PatientAdmissionRepository
 
-  constructor (initialHealthRepository: InitialHealthRepository, admissionRepository: AdmissionRepository) {
+  constructor (initialHealthRepository: InitialHealthRepository, admissionRepository: PatientAdmissionRepository) {
     this.initialHealthRepository = initialHealthRepository
     this.admissionRepository = admissionRepository
   }

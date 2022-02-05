@@ -1,12 +1,12 @@
 import { created, httpResponseError, ok } from 'src/shared/infra/http/http'
-import AdmissionRepository from 'src/admission/domain/repository/admission-repository'
+import PatientAdmissionRepository from 'src/admission/domain/repository/patient-admission-repository'
 import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
 import CreateInitialHealth from 'src/admission/application/usecase/create-initial-health'
 import { InitialHealthInput } from 'src/admission/application/dto/initial-health-input'
 
 export default class InitialHealthController {
   constructor (
-    private readonly admissionRepository: AdmissionRepository,
+    private readonly admissionRepository: PatientAdmissionRepository,
     private readonly initialHealthRepository: InitialHealthRepository
   ) {
   }

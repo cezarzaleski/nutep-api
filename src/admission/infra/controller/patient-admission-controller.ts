@@ -1,18 +1,18 @@
 import { created, httpResponseError, ok } from 'src/shared/infra/http/http'
-import AdmissionRepository from 'src/admission/domain/repository/admission-repository'
+import PatientAdmissionRepository from 'src/admission/domain/repository/patient-admission-repository'
 import { InitialAdmissionInput } from 'src/admission/application/dto/initial-admission-input'
 import InitialAdmission from 'src/admission/application/usecase/initial-admission'
 import PatientRepository from 'src/admission/domain/repository/patient-repository'
-import AdmissionDAO from 'src/admission/application/query/admission-DAO'
+import PatientAdmissionDAO from 'src/admission/application/query/patient-admission-DAO'
 import GetAdmissions from 'src/admission/application/query/get-admissions'
 import GetAdmission from 'src/admission/application/query/get-admission'
 import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
 
-export default class AdmissionController {
+export default class PatientAdmissionController {
   constructor (
-    private readonly admissionRepository: AdmissionRepository,
+    private readonly admissionRepository: PatientAdmissionRepository,
     private readonly patientRepository: PatientRepository,
-    private readonly admissionDAO: AdmissionDAO,
+    private readonly admissionDAO: PatientAdmissionDAO,
     private readonly initialHealthRepository: InitialHealthRepository
   ) {
   }

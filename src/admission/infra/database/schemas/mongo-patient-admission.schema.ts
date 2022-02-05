@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import mongoose from 'mongoose'
-import Admission from 'src/admission/domain/entity/admission'
+import PatientAdmission from 'src/admission/domain/entity/patient-admission'
 import { MongoPatientSchema } from 'src/admission/infra/database/schemas/mongo-patient.schema'
 import { MongoInitialHealthSchema } from 'src/admission/infra/database/schemas/mongo-initial-health.schema'
 
 @Schema({
   strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
-export class MongoAdmissionSchema {
+export class MongoPatientAdmissionSchema {
   _id: any
 
   @Prop()
@@ -25,17 +25,17 @@ export class MongoAdmissionSchema {
   @Prop()
   updatedAt: Date
 
-  static toEntity (admissionSchema: MongoAdmissionSchema): Admission {
-    return new Admission(
+  static toEntity (admissionSchema: MongoPatientAdmissionSchema): PatientAdmission {
+    return new PatientAdmission(
       admissionSchema._id.toString(),
       admissionSchema.patient._id.toString(),
       admissionSchema.status
     ).setInitialHealth(admissionSchema?.initialHealth?._id.toString())
   }
 
-  static toSchema (admission: Admission): MongoAdmissionSchema {
+  static toSchema (admission: PatientAdmission): MongoPatientAdmissionSchema {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const mongoAdmissionSchema = <MongoAdmissionSchema>{
+    const mongoAdmissionSchema = <MongoPatientAdmissionSchema>{
       _id: admission.id,
       status: admission.status,
       patient: { _id: admission.patientId }
@@ -47,4 +47,4 @@ export class MongoAdmissionSchema {
   }
 }
 
-export const MongoAdmissionModel = mongoose.model('Admissions', SchemaFactory.createForClass(MongoAdmissionSchema))
+export const MongoPatientAdmissionModel = mongoose.model('PatientAdmissions', SchemaFactory.createForClass(MongoPatientAdmissionSchema))

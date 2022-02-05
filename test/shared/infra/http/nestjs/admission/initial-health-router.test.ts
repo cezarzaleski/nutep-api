@@ -3,12 +3,12 @@ import request from 'supertest'
 import { nestApp } from 'src/shared/infra/http/nestjs'
 import { makeTestDb } from 'test/shared/infra/database/connection'
 import { MongoPatientModel } from 'src/admission/infra/database/schemas/mongo-patient.schema'
-import { MongoAdmissionModel, MongoAdmissionSchema } from 'src/admission/infra/database/schemas/mongo-admission.schema'
+import { MongoPatientAdmissionModel, MongoPatientAdmissionSchema } from 'src/admission/infra/database/schemas/mongo-patient-admission.schema'
 import { MongoInitialHealthModel } from 'src/admission/infra/database/schemas/mongo-initial-health.schema'
 import { InitialHealthInput } from 'src/admission/application/dto/initial-health-input'
-import Admission from 'src/admission/domain/entity/admission'
+import PatientAdmission from 'src/admission/domain/entity/patient-admission'
 import Patient from 'src/admission/domain/entity/patient'
-import AdmissionRepositoryDatabase from 'src/admission/infra/database/repository/admission-repository-database'
+import PatientAdmissionRepositoryDatabase from 'src/admission/infra/database/repository/patient-admission-repository-database'
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database'
 import { Sex } from 'src/admission/domain/entity/sex'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
@@ -24,7 +24,7 @@ describe('Initial Health Router', () => {
   })
   afterAll(async () => {
     await MongoInitialHealthModel.deleteMany({})
-    await MongoAdmissionModel.deleteMany({})
+    await MongoPatientAdmissionModel.deleteMany({})
     await mongoose.connection.close()
   })
   afterEach(async () => {
@@ -32,10 +32,10 @@ describe('Initial Health Router', () => {
     await MongoPatientModel.deleteMany({})
   })
   describe('POST /api/admissions/initial-health', () => {
-    let admission: Admission
+    let admission: PatientAdmission
     let patient: Patient
     beforeAll(async () => {
-      const admissionRepository = new AdmissionRepositoryDatabase()
+      const admissionRepository = new PatientAdmissionRepositoryDatabase()
       const patientRepository = new PatientRepositoryDatabase()
       patient = new Patient(
         new mongoose.Types.ObjectId().toString(),
@@ -46,7 +46,7 @@ describe('Initial Health Router', () => {
         'hospitalId'
       )
       patient = await patientRepository.save(patient)
-      admission = new Admission(
+      admission = new PatientAdmission(
         new mongoose.Types.ObjectId().toString(),
         patient.id,
         'initial'
@@ -70,7 +70,7 @@ describe('Initial Health Router', () => {
         .post(`/api/initial-health/admission/${admission.id}`)
         .send(initialHealthInput)
       // @ts-expect-error
-      const admissionSaved: MongoAdmissionSchema = await MongoAdmissionModel.findOne({ status: 'initial' })
+      const admissionSaved: MongoPatientAdmissionSchema = await MongoPatientAdmissionModel.findOne({ status: 'initial' })
         .populate('initialHealth')
       expect(status).toBe(201)
       expect(body).not.toBeNull()

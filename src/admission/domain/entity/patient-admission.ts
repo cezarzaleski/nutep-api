@@ -1,4 +1,4 @@
-export default class Admission {
+export default class PatientAdmission {
   private initialHealthId?: string
 
   constructor (
@@ -7,7 +7,7 @@ export default class Admission {
     readonly status: string
   ) {}
 
-  setInitialHealth (initialHealthId?: string): Admission {
+  setInitialHealth (initialHealthId?: string): PatientAdmission {
     this.initialHealthId = initialHealthId
     return this
   }

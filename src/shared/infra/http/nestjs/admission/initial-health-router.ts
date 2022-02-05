@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 // @ts-expect-error
 import { Response } from 'express'
 import { adaptNestJSResolver } from 'src/shared/infra/http/nestjs/nestjs-router'
-import AdmissionRepositoryDatabase from 'src/admission/infra/database/repository/admission-repository-database'
+import PatientAdmissionRepositoryDatabase from 'src/admission/infra/database/repository/patient-admission-repository-database'
 import InitialHealthController from 'src/admission/infra/controller/initial-health-controller'
 import { InitialHealthInput } from 'src/admission/application/dto/initial-health-input'
 import InitialHealthRepositoryDatabase from 'src/admission/infra/database/repository/initial-health-repository-database'
@@ -15,7 +15,7 @@ export class InitialHealthRouter {
 
   constructor () {
     this.initialHealthController = new InitialHealthController(
-      new AdmissionRepositoryDatabase(),
+      new PatientAdmissionRepositoryDatabase(),
       new InitialHealthRepositoryDatabase()
     )
   }

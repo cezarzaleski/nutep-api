@@ -1,20 +1,27 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class CreatePatientInput {
   @ApiProperty()
-  fullName: string;
+  fullName: string
+
   @ApiProperty()
-  birthday: string;
+  birthday: string
+
   @ApiProperty()
-  sex: string;
+  sex: string
+
   @ApiProperty()
-  cpf?: string;
+  cpf?: string
+
   @ApiProperty()
-  register?: string;
+  register?: string
+
   @ApiProperty()
-  attendingPhysician?: string;
+  attendingPhysician?: string
+
   @ApiProperty()
-  healthCare?: string;
+  healthCare?: string
+
   @ApiProperty()
-  linkPhoto?: string;
+  linkPhoto?: string
 }

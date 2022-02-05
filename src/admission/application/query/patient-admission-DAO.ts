@@ -1,5 +1,5 @@
 import PatientDTO from 'src/admission/application/query/patient-DTO'
 
-export default interface AdmissionDAO {
+export default interface PatientAdmissionDAO {
   getPatients: () => Promise<PatientDTO[]>
 }

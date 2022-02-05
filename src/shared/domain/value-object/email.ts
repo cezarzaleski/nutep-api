@@ -1,5 +1,4 @@
-import InvalidEmailError from 'src/shared/exception/invalid-email';
-
+import InvalidEmailError from 'src/shared/exception/invalid-email'
 
 export class Email {
   value: string
@@ -34,7 +33,6 @@ export class Email {
     const domainParts = address.split('.')
     return !domainParts.some(function (part) {
       return part.length > 63
-    });
-
+    })
   }
 }
