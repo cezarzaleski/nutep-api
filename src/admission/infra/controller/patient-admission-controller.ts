@@ -4,8 +4,8 @@ import { InitialAdmissionInput } from 'src/admission/application/dto/initial-adm
 import InitialAdmission from 'src/admission/application/usecase/initial-admission'
 import PatientRepository from 'src/admission/domain/repository/patient-repository'
 import PatientAdmissionDAO from 'src/admission/application/query/patient-admission-DAO'
-import GetAdmissions from 'src/admission/application/query/get-admissions'
-import GetAdmission from 'src/admission/application/query/get-admission'
+import GetPatientAdmissions from 'src/admission/application/query/get-patient-admissions'
+import GetPatientAdmission from 'src/admission/application/query/get-patient-admission'
 import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
 import { FinalizeAdmissionInput } from 'src/admission/application/dto/finalize-admission-input'
 import AdmissionRepository from 'src/admission/domain/repository/admission-repository'
@@ -33,7 +33,7 @@ export default class PatientAdmissionController {
 
   async findAll (): Promise<any> {
     try {
-      const getAdmissions = new GetAdmissions(this.admissionDAO)
+      const getAdmissions = new GetPatientAdmissions(this.admissionDAO)
       const patientsAdmissions = await getAdmissions.execute()
       return ok(patientsAdmissions)
     } catch (error) {
@@ -43,9 +43,11 @@ export default class PatientAdmissionController {
 
   async findById (id: string): Promise<any> {
     try {
-      const getAdmission = new GetAdmission(
+      const getAdmission = new GetPatientAdmission(
         this.patientAdmissionRepository,
-        this.patientRepository, this.initialHealthRepository
+        this.patientRepository,
+        this.initialHealthRepository,
+        this.admissionRepository
       )
       const patientAdmission = await getAdmission.execute(id)
       return ok(patientAdmission)

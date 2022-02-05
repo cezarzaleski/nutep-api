@@ -5,18 +5,21 @@ import GetPatientAdmissionOutput from 'src/admission/application/dto/get-patient
 import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
 import PatientOutput from 'src/admission/application/dto/patient-output'
 import InitialHealthOutput from 'src/admission/application/dto/initial-health-output'
+import AdmissionOutput from 'src/admission/application/dto/admission-output'
+import AdmissionRepository from 'src/admission/domain/repository/admission-repository'
 
-export default class GetAdmission {
+export default class GetPatientAdmission {
   constructor (
-    readonly admissionRepository: PatientAdmissionRepository,
+    readonly patientAdmissionRepository: PatientAdmissionRepository,
     readonly patientRepository: PatientRepository,
-    readonly initialHealthRepository: InitialHealthRepository
+    readonly initialHealthRepository: InitialHealthRepository,
+    readonly admissionRepository: AdmissionRepository
   ) {}
 
   async execute (id: string): Promise<GetPatientAdmissionOutput> {
     if (!id) throw new EmptyParamError('id')
-    const admission = await this.admissionRepository.findById(id)
-    const patient = await this.patientRepository.findById(admission.patientId)
+    const patiendAdmission = await this.patientAdmissionRepository.findById(id)
+    const patient = await this.patientRepository.findById(patiendAdmission.patientId)
     const patientOutput = new PatientOutput(
       patient.id,
       patient.getFullName(),
@@ -29,13 +32,13 @@ export default class GetAdmission {
       patient?.linkPhoto
     )
     const getAdmissionOutput = new GetPatientAdmissionOutput(
-      admission.id,
+      patiendAdmission.id,
       patientOutput,
-      admission.status
+      patiendAdmission.status
     )
-    if (admission.getInitialHealthId()) {
+    if (patiendAdmission.getInitialHealthId()) {
       // @ts-expect-error
-      const initialHealth = await this.initialHealthRepository.findById(admission.getInitialHealthId())
+      const initialHealth = await this.initialHealthRepository.findById(patiendAdmission.getInitialHealthId())
       getAdmissionOutput.initialHealth = new InitialHealthOutput(
         initialHealth.id,
         initialHealth.initialDescription,
@@ -48,6 +51,20 @@ export default class GetAdmission {
         initialHealth.getAllergies(),
         initialHealth.getLesion(),
         initialHealth.getMechanicalVentilation()
+      )
+    }
+
+    if (patiendAdmission.getAdmissionId()) {
+      // @ts-expect-error
+      const admission = await this.admissionRepository.findById(patiendAdmission.getAdmissionId())
+      getAdmissionOutput.admission = new AdmissionOutput(
+        admission.id,
+        admission.getCaloricGoal(),
+        admission.getProteinGoal(),
+        admission.getDiets(),
+        admission.getDateInternation(),
+        admission.getDateInitialTherapy(),
+        admission.getMedicalConducts()
       )
     }
     return getAdmissionOutput
