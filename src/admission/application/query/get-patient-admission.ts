@@ -59,6 +59,11 @@ export default class GetPatientAdmission {
       const admission = await this.admissionRepository.findById(patiendAdmission.getAdmissionId())
       getAdmissionOutput.admission = new AdmissionOutput(
         admission.id,
+        admission.hospitalId,
+        admission.utiId,
+        admission.bedId,
+        admission.typeNutritional,
+        admission.foodInstrument,
         admission.getCaloricGoal(),
         admission.getProteinGoal(),
         admission.getDiets(),
