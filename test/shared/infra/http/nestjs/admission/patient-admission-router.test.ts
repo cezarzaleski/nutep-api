@@ -195,10 +195,10 @@ describe('Patient Admissions Router', () => {
       foodInstrument: 'foodInstrument',
       dateInternation: new Date().toISOString(),
       dateInitialTherapy: new Date().toISOString(),
-      medicalConduct: 'medicalConduct',
+      medicalConducts: ['medicalConduct'],
       caloricGoal: { min: 1, max: 2 },
       proteinGoal: { min: 1, max: 2 },
-      diet: { product: 'product', proposed: 1, infused: 2 }
+      diets: [{ product: 'product', proposed: 1, infused: 2 }]
     }
     it('should return 201 patient finalize admission', async () => {
       const { status, body } = await request(app.getHttpServer())
