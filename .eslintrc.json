@@ -10,7 +10,9 @@
     "@typescript-eslint/strict-boolean-expressions": [2,  {
       "allowNullableBoolean": true,
       "allowNullableString": true,
-      "allowNullableNumber": true
+      "allowNullableNumber": true,
+      "allowAny": true
+
     }]
   }
 }
