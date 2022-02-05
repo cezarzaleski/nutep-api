@@ -1,6 +1,5 @@
 import Admission from 'src/admission/domain/entity/admission'
 import mongoose from 'mongoose'
-import Diet from 'src/admission/domain/entity/diet'
 
 export class FinalizeAdmissionInput {
   constructor (
@@ -11,10 +10,10 @@ export class FinalizeAdmissionInput {
     readonly foodInstrument?: string,
     readonly dateInternation?: string,
     readonly dateInitialTherapy?: string,
-    readonly medicalConduct?: string,
+    readonly medicalConducts?: string[],
     readonly caloricGoal?: GoalInput,
     readonly proteinGoal?: GoalInput,
-    readonly diet?: DietInput
+    readonly diets?: DietInput[]
   ) {
   }
 
@@ -28,12 +27,12 @@ export class FinalizeAdmissionInput {
       input?.typeNutritional,
       input?.foodInstrument,
       input?.dateInternation,
-      input?.dateInitialTherapy,
-      input?.medicalConduct
+      input?.dateInitialTherapy
     )
       .setCaloricGoal(input?.caloricGoal?.min, input?.caloricGoal?.max)
       .setProteinGoal(input?.proteinGoal?.min, input?.proteinGoal?.max)
-      .setDiet(new Diet(input.diet?.product, input.diet?.proposed, input.diet?.infused))
+      .addDiets(input?.diets)
+      .addMedicalConductss(input?.medicalConducts)
   }
 }
 

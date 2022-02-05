@@ -5,9 +5,10 @@ import EmptyParamError from 'src/shared/exception/empty-param'
 export default class Admission {
   private caloricGoal: Goal
   private proteinGoal: Goal
-  private diet: Diet
+  private readonly diets: Diet[] = []
   private readonly dateInternation?: Date
   private readonly dateInitialTherapy?: Date
+  private readonly medicalConducts: string[] = []
   constructor (
     readonly id: string,
     readonly hospitalId?: string,
@@ -16,8 +17,7 @@ export default class Admission {
     readonly typeNutritional?: string,
     readonly foodInstrument?: string,
     dateInternation?: string,
-    dateInitialTherapy?: string,
-    readonly medicalConduct?: string
+    dateInitialTherapy?: string
   ) {
     if (!hospitalId) throw new EmptyParamError('hospital')
     if (!utiId) throw new EmptyParamError('utiId')
@@ -40,14 +40,31 @@ export default class Admission {
     return this
   }
 
-  setDiet (diet: Diet): Admission {
-    this.diet = diet
+  addDiets (diets?: Diet[]): Admission {
+    if (!diets || !diets.length) return this
+    diets.forEach(diet => this.addDiet(new Diet(diet.product, diet.proposed, diet.infused)))
     return this
+  }
+
+  addDiet (diet: Diet): Admission {
+    this.diets.push(diet)
+    return this
+  }
+
+  addMedicalConductss (medicalConducts?: string[]): Admission {
+    if (!medicalConducts || !medicalConducts.length) return this
+    medicalConducts.forEach(medicalConduct => this.addMedicalConduct(medicalConduct))
+    return this
+  }
+
+  addMedicalConduct (medicalConduct: string): void {
+    this.medicalConducts.push(medicalConduct)
   }
 
   getCaloricGoal (): Goal { return this.caloricGoal }
   getProteinGoal (): Goal { return this.proteinGoal }
-  getDiet (): Diet { return this.diet }
+  getDiets (): Diet[] { return this.diets }
   getDateInitialTherapy (): Date | undefined { return this.dateInitialTherapy }
   getDateInternation (): Date | undefined { return this.dateInternation }
+  getMedicalConducts (): string[] { return this.medicalConducts }
 }

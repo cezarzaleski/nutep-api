@@ -32,7 +32,7 @@ export class MongoAdmissionSchema {
   dateInitialTherapy?: Date
 
   @Prop()
-  medicalConduct: string
+  medicalConducts: string[]
 
   @Prop()
   caloricGoal: Goal
@@ -41,7 +41,7 @@ export class MongoAdmissionSchema {
   proteinGoal: Goal
 
   @Prop()
-  diet: Diet
+  diets: Diet[]
 
   @Prop()
   createdAt: Date
@@ -58,12 +58,12 @@ export class MongoAdmissionSchema {
       admissionSchema.typeNutritional,
       admissionSchema.foodInstrument,
       admissionSchema?.dateInternation?.toISOString(),
-      admissionSchema?.dateInitialTherapy?.toISOString(),
-      admissionSchema.medicalConduct
+      admissionSchema?.dateInitialTherapy?.toISOString()
     )
       .setCaloricGoal(admissionSchema.caloricGoal.min, admissionSchema.caloricGoal.max)
       .setProteinGoal(admissionSchema.proteinGoal.min, admissionSchema.proteinGoal.max)
-      .setDiet(admissionSchema.diet)
+      .addDiets(admissionSchema.diets)
+      .addMedicalConductss(admissionSchema.medicalConducts)
   }
 
   static toSchema (admission: Admission): MongoAdmissionSchema {
@@ -77,10 +77,10 @@ export class MongoAdmissionSchema {
       foodInstrument: admission.foodInstrument,
       dateInternation: admission.getDateInternation(),
       dateInitialTherapy: admission.getDateInitialTherapy(),
-      medicalConduct: admission.medicalConduct,
+      medicalConducts: admission.getMedicalConducts(),
       caloricGoal: admission.getCaloricGoal(),
       proteinGoal: admission.getProteinGoal(),
-      diet: admission.getDiet()
+      diets: admission.getDiets()
     }
   }
 }
