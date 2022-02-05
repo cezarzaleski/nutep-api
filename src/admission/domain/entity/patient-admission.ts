@@ -1,5 +1,6 @@
 export default class PatientAdmission {
   private initialHealthId?: string
+  private admissionId?: string
 
   constructor (
     readonly id: string,
@@ -14,5 +15,14 @@ export default class PatientAdmission {
 
   getInitialHealthId (): string | undefined {
     return this.initialHealthId
+  }
+
+  setAdmissionId (admissionId?: string): PatientAdmission {
+    this.admissionId = admissionId
+    return this
+  }
+
+  getAdmissionId (): string | undefined {
+    return this.admissionId
   }
 }

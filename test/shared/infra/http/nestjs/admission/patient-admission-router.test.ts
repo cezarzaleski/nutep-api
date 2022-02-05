@@ -3,14 +3,19 @@ import request from 'supertest'
 import { nestApp } from 'src/shared/infra/http/nestjs'
 import { makeTestDb } from 'test/shared/infra/database/connection'
 import { MongoPatientModel, MongoPatientSchema } from 'src/admission/infra/database/schemas/mongo-patient.schema'
-import { MongoPatientAdmissionModel, MongoPatientAdmissionSchema } from 'src/admission/infra/database/schemas/mongo-patient-admission.schema'
+import {
+  MongoPatientAdmissionModel,
+  MongoPatientAdmissionSchema
+} from 'src/admission/infra/database/schemas/mongo-patient-admission.schema'
 import { InitialAdmissionInput, PatientInput } from 'src/admission/application/dto/initial-admission-input'
 import Patient from 'src/admission/domain/entity/patient'
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database'
 import { Sex } from 'src/admission/domain/entity/sex'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
 import PatientAdmission from 'src/admission/domain/entity/patient-admission'
-import PatientAdmissionRepositoryDatabase from 'src/admission/infra/database/repository/patient-admission-repository-database'
+import PatientAdmissionRepositoryDatabase
+  from 'src/admission/infra/database/repository/patient-admission-repository-database'
+import { FinalizeAdmissionInput } from 'src/admission/application/dto/finalize-admission-input'
 
 describe('Patient Admissions Router', () => {
   let app: any
@@ -60,7 +65,7 @@ describe('Patient Admissions Router', () => {
     let admission: PatientAdmission
     let patient: Patient
     beforeAll(async () => {
-      const admissionRepository = new PatientAdmissionRepositoryDatabase()
+      const patientAdmissionRepository = new PatientAdmissionRepositoryDatabase()
       const patientRepository = new PatientRepositoryDatabase()
       patient = new Patient(
         new mongoose.Types.ObjectId().toString(),
@@ -76,7 +81,7 @@ describe('Patient Admissions Router', () => {
         patient.id,
         'initial'
       )
-      admission = await admissionRepository.save(admission)
+      admission = await patientAdmissionRepository.save(admission)
     })
     it('should return 200 find all admissions none filter', async () => {
       const { status, body } = await request(app.getHttpServer())
@@ -90,7 +95,7 @@ describe('Patient Admissions Router', () => {
     let patient: Patient
     let admission: PatientAdmission
     beforeAll(async () => {
-      const admissionRepository = new PatientAdmissionRepositoryDatabase()
+      const patientAdmissionRepository = new PatientAdmissionRepositoryDatabase()
       const patientRepository = new PatientRepositoryDatabase()
       patient = new Patient(
         new mongoose.Types.ObjectId().toString(),
@@ -106,7 +111,7 @@ describe('Patient Admissions Router', () => {
         patient.id,
         'initial'
       )
-      admission = await admissionRepository.save(admission)
+      admission = await patientAdmissionRepository.save(admission)
     })
     it('should return 200 find by id admission', async () => {
       const { status, body } = await request(app.getHttpServer())
@@ -121,7 +126,7 @@ describe('Patient Admissions Router', () => {
     let admission: PatientAdmission
     beforeAll(async () => {
       const patientRepository = new PatientRepositoryDatabase()
-      const admissionRepository = new PatientAdmissionRepositoryDatabase()
+      const patientAdmissionRepository = new PatientAdmissionRepositoryDatabase()
       patient = new Patient(
         new mongoose.Types.ObjectId().toString(),
         'dummy-update',
@@ -136,7 +141,7 @@ describe('Patient Admissions Router', () => {
         patient.id,
         'initial'
       )
-      admission = await admissionRepository.save(admission)
+      admission = await patientAdmissionRepository.save(admission)
     })
     it('should return 200 admission updated', async () => {
       const patientInput: PatientInput = {
@@ -156,6 +161,58 @@ describe('Patient Admissions Router', () => {
       expect(status).toBe(200)
       expect(body).not.toBeNull()
       expect(patientSaved.fullName).toEqual('fullname update')
+    })
+  })
+  describe('POST /api/patient-admissions/:admissionId/finalize', () => {
+    let patient: Patient
+    let patientAdmission: PatientAdmission
+    beforeAll(async () => {
+      const patientRepository = new PatientRepositoryDatabase()
+      const patientAdmissionRepository = new PatientAdmissionRepositoryDatabase()
+      patient = new Patient(
+        new mongoose.Types.ObjectId().toString(),
+        'dummy-update',
+        '2000-11-23',
+        Sex.Masculine,
+        HospitalizationStatus.OnAdmission,
+        'hospitalId',
+        '636.845.080-04',
+        '1212'
+      )
+      patient = await patientRepository.save(patient)
+      patientAdmission = new PatientAdmission(
+        new mongoose.Types.ObjectId().toString(),
+        patient.id,
+        'initial'
+      )
+      patientAdmission = await patientAdmissionRepository.save(patientAdmission)
+    })
+    const finalizeAdmissionInput: FinalizeAdmissionInput = {
+      hospitalId: 'hospitalId',
+      utiId: 'utiId',
+      bedId: 'bedId',
+      typeNutritional: 'typeNutritional',
+      foodInstrument: 'foodInstrument',
+      dateInternation: new Date().toISOString(),
+      dateInitialTherapy: new Date().toISOString(),
+      medicalConduct: 'medicalConduct',
+      caloricGoal: { min: 1, max: 2 },
+      proteinGoal: { min: 1, max: 2 },
+      diet: { product: 'product', proposed: 1, infused: 2 }
+    }
+    it('should return 201 patient finalize admission', async () => {
+      const { status, body } = await request(app.getHttpServer())
+        .post(`/api/patient-admissions/${patientAdmission.id}/finalize`)
+        .send(finalizeAdmissionInput)
+      // @ts-expect-error
+      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({ register: '1212' })
+      // @ts-expect-error
+      const admissionSaved: MongoPatientAdmissionSchema = await MongoPatientAdmissionModel.findOne({ status: 'initial' })
+        .populate('admission')
+      expect(status).toBe(201)
+      expect(body).not.toBeNull()
+      expect(patientSaved).not.toBeNull()
+      expect(admissionSaved.admission).not.toBeNull()
     })
   })
 })

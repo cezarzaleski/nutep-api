@@ -7,19 +7,23 @@ import PatientAdmissionDAO from 'src/admission/application/query/patient-admissi
 import GetAdmissions from 'src/admission/application/query/get-admissions'
 import GetAdmission from 'src/admission/application/query/get-admission'
 import InitialHealthRepository from 'src/admission/domain/repository/initial-health-repository'
+import { FinalizeAdmissionInput } from 'src/admission/application/dto/finalize-admission-input'
+import AdmissionRepository from 'src/admission/domain/repository/admission-repository'
+import FinalizeAdmission from 'src/admission/application/usecase/finalize-admission'
 
 export default class PatientAdmissionController {
   constructor (
-    private readonly admissionRepository: PatientAdmissionRepository,
+    private readonly patientAdmissionRepository: PatientAdmissionRepository,
     private readonly patientRepository: PatientRepository,
     private readonly admissionDAO: PatientAdmissionDAO,
-    private readonly initialHealthRepository: InitialHealthRepository
+    private readonly initialHealthRepository: InitialHealthRepository,
+    private readonly admissionRepository: AdmissionRepository
   ) {
   }
 
   async initial (input: InitialAdmissionInput): Promise<any> {
     try {
-      const initialAdmission = new InitialAdmission(this.patientRepository, this.admissionRepository)
+      const initialAdmission = new InitialAdmission(this.patientRepository, this.patientAdmissionRepository)
       const admission = await initialAdmission.execute(input)
       return created(admission)
     } catch (error) {
@@ -30,8 +34,8 @@ export default class PatientAdmissionController {
   async findAll (): Promise<any> {
     try {
       const getAdmissions = new GetAdmissions(this.admissionDAO)
-      const patients = await getAdmissions.execute()
-      return ok(patients)
+      const patientsAdmissions = await getAdmissions.execute()
+      return ok(patientsAdmissions)
     } catch (error) {
       return httpResponseError(error)
     }
@@ -39,9 +43,12 @@ export default class PatientAdmissionController {
 
   async findById (id: string): Promise<any> {
     try {
-      const getAdmission = new GetAdmission(this.admissionRepository, this.patientRepository, this.initialHealthRepository)
-      const patient = await getAdmission.execute(id)
-      return ok(patient)
+      const getAdmission = new GetAdmission(
+        this.patientAdmissionRepository,
+        this.patientRepository, this.initialHealthRepository
+      )
+      const patientAdmission = await getAdmission.execute(id)
+      return ok(patientAdmission)
     } catch (error) {
       return httpResponseError(error)
     }
@@ -49,9 +56,19 @@ export default class PatientAdmissionController {
 
   async update (admissionId: string, input: InitialAdmissionInput): Promise<any> {
     try {
-      const initialAdmission = new InitialAdmission(this.patientRepository, this.admissionRepository)
+      const initialAdmission = new InitialAdmission(this.patientRepository, this.patientAdmissionRepository)
       const admission = await initialAdmission.execute(input, admissionId)
       return ok(admission)
+    } catch (error) {
+      return httpResponseError(error)
+    }
+  }
+
+  async finalize (input: FinalizeAdmissionInput, admissionId: string): Promise<any> {
+    try {
+      const finalizeAdmission = new FinalizeAdmission(this.admissionRepository, this.patientAdmissionRepository)
+      const admission = await finalizeAdmission.execute(input, admissionId)
+      return created(admission)
     } catch (error) {
       return httpResponseError(error)
     }
