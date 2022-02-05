@@ -45,8 +45,7 @@
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.0.0",
     "swagger-ui-express": "^4.1.4",
-    "ts-node-dev": "^1.1.1",
-    "uuid": "^8.3.2"
+    "ts-node-dev": "^1.1.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
@@ -55,7 +54,6 @@
     "@types/jest": "^27.0.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/supertest": "^2.0.10",
-    "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.29.1",
     "eslint": "^7.12.1",

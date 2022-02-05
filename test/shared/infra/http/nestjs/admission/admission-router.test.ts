@@ -9,7 +9,6 @@ import Patient from 'src/admission/domain/entity/patient'
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database'
 import { Sex } from 'src/admission/domain/entity/sex'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
-import { v4 as uuidv4 } from 'uuid'
 import Admission from 'src/admission/domain/entity/admission'
 import AdmissionRepositoryDatabase from 'src/admission/infra/database/repository/admission-repository-database'
 
@@ -69,7 +68,7 @@ describe('Admission Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
       admission = new Admission(
@@ -99,7 +98,7 @@ describe('Admission Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
       admission = new Admission(
@@ -109,12 +108,12 @@ describe('Admission Router', () => {
       )
       admission = await admissionRepository.save(admission)
     })
-    it('should return 200 find by id patients', async () => {
+    it('should return 200 find by id admission', async () => {
       const { status, body } = await request(app.getHttpServer())
         .get(`/api/admissions/${admission.id}`)
       expect(status).toBe(200)
       expect(body).not.toBeNull()
-      expect(body.fullName).toEqual('dummy')
+      expect(body.patient.fullName).toEqual('dummy')
     })
   })
   describe('UPDATE /api/patients/:id', () => {
@@ -129,7 +128,7 @@ describe('Admission Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
       admission = new Admission(

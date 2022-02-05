@@ -11,6 +11,7 @@ import Lesion from 'src/admission/domain/entity/lesion'
 })
 export class MongoInitialHealthSchema {
   _id: any
+
   @Prop()
   initialDescription: string
 

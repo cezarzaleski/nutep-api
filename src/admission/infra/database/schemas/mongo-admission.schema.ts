@@ -9,6 +9,7 @@ import { MongoInitialHealthSchema } from 'src/admission/infra/database/schemas/m
 })
 export class MongoAdmissionSchema {
   _id: any
+
   @Prop()
   status: string
 

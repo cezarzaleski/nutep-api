@@ -2,7 +2,6 @@ import PatientRepository from 'src/admission/domain/repository/patient-repositor
 import CreatePatientInput from 'src/admission/application/dto/create-patient-input'
 import Patient from 'src/admission/domain/entity/patient'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
-import { v4 as uuidv4 } from 'uuid'
 import mongoose from 'mongoose'
 
 export default class CreatePatient {
@@ -19,7 +18,7 @@ export default class CreatePatient {
       input.birthday,
       input.sex,
       HospitalizationStatus.OnAdmission,
-      uuidv4(),
+      'hospitalId',
       input.cpf,
       input.register,
       input.attendingPhysician,

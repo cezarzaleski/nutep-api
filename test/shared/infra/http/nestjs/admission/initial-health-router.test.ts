@@ -12,7 +12,6 @@ import AdmissionRepositoryDatabase from 'src/admission/infra/database/repository
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database'
 import { Sex } from 'src/admission/domain/entity/sex'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
-import { v4 as uuidv4 } from 'uuid'
 import { ConsciousnessLevel } from 'src/admission/domain/entity/consciousness-level'
 
 describe('Initial Health Router', () => {
@@ -44,7 +43,7 @@ describe('Initial Health Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
       admission = new Admission(
@@ -63,9 +62,10 @@ describe('Initial Health Router', () => {
       'Y',
       undefined,
       ['comorbidities'],
-      ['allergies']
+      ['allergies'],
+      { has: 'N' }
     )
-    it('should return 201 patient initial admission', async () => {
+    it('should return 201 patient initial health', async () => {
       const { status, body } = await request(app.getHttpServer())
         .post(`/api/initial-health/admission/${admission.id}`)
         .send(initialHealthInput)

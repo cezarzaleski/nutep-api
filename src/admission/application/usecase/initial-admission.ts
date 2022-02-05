@@ -16,7 +16,10 @@ export default class InitialAdmission {
     if (admissionId) {
       const admissionSaved = await this.admissionRepository.findById(admissionId)
       await this.patientRepository.findById(admissionSaved.patientId)
-      await this.patientRepository.update(admissionSaved.patientId, PatientInput.toEntity(input.patient))
+      await this.patientRepository.update(
+        admissionSaved.patientId,
+        PatientInput.toEntity(input.patient, admissionSaved.patientId)
+      )
       return admissionSaved
     }
     const patientCreated = await this.patientRepository.save(PatientInput.toEntity(input.patient))

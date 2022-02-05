@@ -9,8 +9,6 @@ import Patient from 'src/admission/domain/entity/patient'
 })
 export class MongoPatientSchema {
   _id: any
-  @Prop({ index: true, unique: true })
-  uuid: string
 
   @Prop()
   fullName: string
@@ -67,7 +65,7 @@ export class MongoPatientSchema {
   static toSchema (patient: Patient): MongoPatientSchema {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     return <MongoPatientSchema>{
-      uuid: patient.id,
+      _id: patient.id,
       fullName: patient.getFullName(),
       birthday: patient.birthday,
       sex: patient.getSex(),

@@ -7,7 +7,6 @@ import { CreatePatientInput } from 'src/shared/infra/http/nestjs/admission/input
 import { Sex } from 'src/admission/domain/entity/sex'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
 import Patient from 'src/admission/domain/entity/patient'
-import { v4 as uuidv4 } from 'uuid'
 import PatientRepositoryDatabase from 'src/admission/infra/database/repository/patient-repository-database'
 
 describe('Patient Router', () => {
@@ -65,7 +64,7 @@ describe('Patient Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
     })
@@ -87,7 +86,7 @@ describe('Patient Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
     })
@@ -109,7 +108,7 @@ describe('Patient Router', () => {
         '2000-11-23',
         Sex.Masculine,
         HospitalizationStatus.OnAdmission,
-        uuidv4()
+        'hospitalId'
       )
       patient = await patientRepository.save(patient)
     })
@@ -126,7 +125,7 @@ describe('Patient Router', () => {
         .put(`/api/patients/${patient.id}`)
         .send(createPatientInput)
       // @ts-expect-error
-      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({ uuid: patient.id })
+      const patientSaved: MongoPatientSchema = await MongoPatientModel.findOne({ _id: patient.id })
       expect(status).toBe(200)
       expect(body).not.toBeNull()
       expect(patientSaved.fullName).toEqual('fullname update')

@@ -15,7 +15,6 @@ export default class PatientRepositoryDatabase implements PatientRepository {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const mongoPatient = <MongoPatientSchema>{
       _id: patient.id,
-      uuid: patient.id,
       fullName: patient.getFullName(),
       birthday: patient.birthday,
       sex: patient.getSex(),

@@ -1,5 +1,4 @@
 import Patient from 'src/admission/domain/entity/patient'
-import { v4 as uuidv4 } from 'uuid'
 import { HospitalizationStatus } from 'src/admission/domain/entity/hospitalization-status'
 import mongoose from 'mongoose'
 
@@ -21,14 +20,15 @@ export class PatientInput {
     readonly linkPhoto?: string
   ) {}
 
-  static toEntity (patientInput: PatientInput): Patient {
+  static toEntity (patientInput: PatientInput, id?: string): Patient {
+    const patientId = !id ? new mongoose.Types.ObjectId().toString() : id
     return new Patient(
-      new mongoose.Types.ObjectId().toString(),
+      patientId,
       patientInput?.fullName,
       patientInput?.birthday,
       patientInput?.sex,
       HospitalizationStatus.OnAdmission,
-      uuidv4(),
+      'hospitalId',
       patientInput?.cpf,
       patientInput?.register,
       patientInput?.attendingPhysician,
