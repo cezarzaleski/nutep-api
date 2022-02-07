@@ -80,8 +80,8 @@ deploy to staging:
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
     - ssh-keyscan gitlab.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
     - chmod 700 ~/.ssh
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@167.172.246.133:/projetos/nutep-dev/backend
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@167.172.246.133 'rm -rf /projetos/nutep/backend-dev/app; cd /projetos/nutep-dev/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep-dev/backend/app.tar.gz; sleep 2; docker restart backend-dev;'
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@68.183.61.86:/projetos/nutep-dev/backend
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@68.183.61.86 'rm -rf /projetos/nutep/backend-dev/app; cd /projetos/nutep-dev/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep-dev/backend/app.tar.gz; sleep 2; docker restart backend-dev;'
   environment:
     name: staging
     url: https://${CNAME}
@@ -116,8 +116,8 @@ deploy to production:
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
     - ssh-keyscan gitlab.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
     - chmod 700 ~/.ssh
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@143.110.154.186:/projetos/nutep/backend
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@143.110.154.186 'rm -rf /projetos/nutep/backend/app; cd /projetos/nutep/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep/backend/app.tar.gz; sleep 2; docker restart backend ;'
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@68.183.61.86:/projetos/nutep/backend
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@68.183.61.86 'rm -rf /projetos/nutep/backend/app; cd /projetos/nutep/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep/backend/app.tar.gz; sleep 2; docker restart backend ;'
   environment:
     name: staging
     url: https://${CNAME}
