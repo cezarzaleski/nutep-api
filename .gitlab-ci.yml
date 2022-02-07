@@ -1,0 +1,125 @@
+image: node:12.18.3-alpine3.12
+stages:
+  - build
+  - deploy
+cache:
+  paths:
+    - ./app
+
+build stagging:
+  stage: build
+  cache:
+    key: api-build
+    policy: push
+    paths:
+      - ./app.tar.gz
+  artifacts:
+    name: "pwa-$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    when: always
+    expire_in: 2h
+    paths:
+      - ./app.tar.gz
+  script:
+    - apk add alpine-sdk python2 pixman cairo-dev pango-dev jpeg-dev giflib-dev --no-cache
+    - echo "$ENV_DEV" > .env
+    - echo "VERSAO='$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA'" >> .env
+    - npm i install
+    - npm run build
+    - tar -czvf ../app.tar.gz . && mv ../app.tar.gz .
+  only:
+    - staging
+
+build production:
+  stage: build
+  cache:
+    key: api-build
+    policy: push
+    paths:
+      - ./app.tar.gz
+  artifacts:
+    name: "pwa-$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    when: always
+    expire_in: 2h
+    paths:
+      - ./app.tar.gz
+  script:
+    - apk add alpine-sdk python2 pixman cairo-dev pango-dev jpeg-dev giflib-dev --no-cache
+    - echo "$ENV_PROD" > .env
+    - echo "VERSAO='$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA'" >> .env
+    - npm i install
+    - npm run build
+    - tar -czvf ../app.tar.gz . && mv ../app.tar.gz .
+  only:
+    - main
+
+deploy to staging:
+  stage: deploy
+  variables:
+    CNAME: api-dev.nutep.com.br
+    GIT_STRATEGY: none
+  cache:
+    key: api-build
+    policy: pull
+  script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apk add --update openssh )'
+    # Add bash
+    - apk add --update bash
+    # Add git
+    - apk add --update git
+    - apk add --update openssh-client bash
+    - eval $(ssh-agent -s)
+    - bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY"| base64 -d)'
+
+    # For Docker builds disable host key checking. Be aware that by adding that
+    # you are suspectible to man-in-the-middle attacks.
+    # WARNING: Use this only with the Docker executor, if you use it with shell
+    # you will overwrite your user's SSH config.
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+    - ssh-keyscan gitlab.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
+    - chmod 700 ~/.ssh
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@167.172.246.133:/projetos/nutep-dev/backend
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@167.172.246.133 'rm -rf /projetos/nutep/backend-dev/app; cd /projetos/nutep-dev/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep-dev/backend/app.tar.gz; sleep 2; docker restart backend-dev;'
+  environment:
+    name: staging
+    url: https://${CNAME}
+  only:
+    - staging
+
+deploy to production:
+  stage: deploy
+  variables:
+    CNAME: api.nutep.com.br
+    GIT_STRATEGY: none
+  cache:
+    key: api-build
+    policy: pull
+  script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apk add --update openssh )'
+    # Add bash
+    - apk add --update bash
+    # Add git
+    - apk add --update git
+    - apk add --update openssh-client bash
+    - eval $(ssh-agent -s)
+    - bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY"| base64 -d)'
+
+    # For Docker builds disable host key checking. Be aware that by adding that
+    # you are suspectible to man-in-the-middle attacks.
+    # WARNING: Use this only with the Docker executor, if you use it with shell
+    # you will overwrite your user's SSH config.
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+    - ssh-keyscan gitlab.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
+    - chmod 700 ~/.ssh
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@143.110.154.186:/projetos/nutep/backend
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@143.110.154.186 'rm -rf /projetos/nutep/backend/app; cd /projetos/nutep/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep/backend/app.tar.gz; sleep 2; docker restart backend ;'
+  environment:
+    name: staging
+    url: https://${CNAME}
+  only:
+    - main
