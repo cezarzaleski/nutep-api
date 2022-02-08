@@ -81,7 +81,7 @@ deploy to staging:
     - ssh-keyscan gitlab.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
     - chmod 700 ~/.ssh
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@68.183.61.86:/projetos/nutep-dev/backend
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@68.183.61.86 'rm -rf /projetos/nutep/backend-dev/app; cd /projetos/nutep-dev/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep-dev/backend/app.tar.gz; sleep 2; docker restart backend-dev;'
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@68.183.61.86 'rm -rf /projetos/nutep/backend-dev/app; cd /projetos/nutep-dev/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep-dev/backend/app.tar.gz; sleep 2; docker restart nutep-api-dev;'
   environment:
     name: staging
     url: https://${CNAME}
@@ -117,7 +117,7 @@ deploy to production:
     - ssh-keyscan gitlab.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
     - chmod 700 ~/.ssh
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./app.tar.gz root@68.183.61.86:/projetos/nutep/backend
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@68.183.61.86 'rm -rf /projetos/nutep/backend/app; cd /projetos/nutep/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep/backend/app.tar.gz; sleep 2; docker restart backend ;'
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t root@68.183.61.86 'rm -rf /projetos/nutep/backend/app; cd /projetos/nutep/backend/;tar -xzvf app.tar.gz;rm -rf /projetos/nutep/backend/app.tar.gz; sleep 2; docker restart nutep-api ;'
   environment:
     name: staging
     url: https://${CNAME}
