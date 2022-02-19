@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "npx nest build",
     "test": "jest --forceExit --detectOpenHandles",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
@@ -13,7 +13,8 @@
     "test:unit": "jest -c jest-unit-config.js  --passWithNoTests --no-cache --runInBand",
     "test:coverage": "npm test -- --coverage",
     "start": "cross-env ts-node-dev -r tsconfig-paths/register --respawn -- src/main.ts",
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/main",
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
     "type": "git",
@@ -70,7 +71,8 @@
     "jest-mock-extended": "^2.0.4",
     "lint-staged": "^11.2.6",
     "ts-jest": "^27.0.7",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "ts-node-dev": "^1.1.1"
   },
   "jest": {
     "moduleFileExtensions": [
