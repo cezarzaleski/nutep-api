@@ -16,7 +16,7 @@ const chooseDatabase = () => {
 const startServer = async () => {
   const database = chooseDatabase()
   const app = await chooseFramework()
-  const port = 3001
+  const port = process.env.PORT
   database
     .connect()
     .then(async () => {
